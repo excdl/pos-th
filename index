@@ -3,1949 +3,1030 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>彩鮮 POS 系統</title>
+<title>生鮮蔬果購物商城</title>
+
 <style>
-body {
-    margin: 0;
-    font-family: "Microsoft JhengHei", Arial, sans-serif;
-    background: #f5f5f5;
-}
-
-button {
-    cursor: pointer;
-    outline: none;
-    transition: 0.2s;
-}
-
-#posApp {
-    display: flex;
-    height: 100vh;
-}
-
-#posCategories {
-    width: 18%;
-    background: #3498db;
-    padding: 15px;
-    color: white;
-    overflow-y: auto;
-    border-radius: 0 12px 12px 0;
-}
-
-#posCategories h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-weight: 600;
-    font-size: 1.2em; /* Increase by 20% */
-}
-
-#posCategories button {
-    width: 100%;
-    margin: 5px 0;
-    padding: 12px;
-    font-size: 1.1em; /* Increase by 15% */
-    border: none;
-    border-radius: 6px;
-    background: #2980b9;
-    color: white;
-}
-
-#posCategories button.active {
-    background: #f1c40f;
-    color: #2c3e50;
-    font-weight: bold;
-}
-
-#posProducts {
-    flex: 1;
-    padding: 15px 0% 15px 3%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: flex-start;
-    align-content: flex-start;
-    overflow-y: auto;
-}
-
-.product-card {
-    background: white;
-    border-radius: 12px;
-    padding: 5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    text-align: center;
-    transition: 0.3s;
-    cursor: pointer;
-    width: 120px;
-    height: 200px;
-    flex-shrink: 0;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.product-card img {
-    width: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 5px;
-}
-
-.product-card h4 {
-    margin: 0;
-    font-size: 0.8em; /* Increase by 20% */
-    line-height: 1.2em;
-    white-space: normal;
-    word-wrap: break-word;
-    max-height: 2.4em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.product-card p {
-    margin: 2px 0 0 0;
-    font-size: 1em; /* Increase by 15% */
-    color: #555;
-}
-
-#posCartContainer {
-    width: 30%;
-    background: #f7f7f7;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    border-left: 2px solid #ddd;
-}
-
-.cartHeader {
-    font-weight: bold;
-    background: #eee;
-    font-size: 1em; /* Increase by 15% */
-    display: grid;
-    grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr;
-    gap: 5px;
-    padding: 5px;
-    border-radius: 6px;
-    text-align: center;
-}
-
-#posCart div.cartRow {
-    display: grid;
-    grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr;
-    gap: 5px;
-    background: white;
-    padding: 5px;
-    margin-bottom: 5px;
-    border-radius: 6px;
-    align-items: center;
-    text-align: center;
-    font-size: 0.9em; /* Increase by 15% */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-#posCart div.cartRow span.name {
-    text-align: left;
-    cursor: pointer;
-    white-space: normal;
-    word-break: break-word;
-}
-
-#discountContainer {
-    display: flex;
-    gap: 5px;
-    margin: 5px 0;
-}
-
-#discountContainer input {
-    flex: 1;
-    padding: 6px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    text-align: right;
-    font-size: 0.9em; /* Increase by 15% */
-    cursor: pointer;
-}
-
-#taxContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin: 5px 0;
-}
-
-#taxContainer button {
-    flex: 1 1 30%;
-    padding: 6px;
-    border: none;
-    border-radius: 6px;
-    background: #bdc3c7;
-    cursor: pointer;
-}
-
-#taxContainer button.active {
-    background: #f1c40f;
-    color: #333;
-    font-weight: bold;
-}
-
-#cashPanel {
-    display: block;
-    margin-top: 5px;
-}
+/* ===== Shopee 風格 ===== */
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:"Microsoft JhengHei",sans-serif;
+  background:#f5f5f5;
+  color:#222;
+}
+
+/* ===== Header ===== */
+header{
+  background:linear-gradient(180deg,#ee4d2d,#ff7337);
+  color:white;
+  padding:14px 20px;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+
+.header-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  max-width:1300px;
+  margin:auto;
+}
+
+.logo{
+  font-size:1.6em;
+  font-weight:bold;
+}
+
+#greeting{
+  font-size:0.95em;
+}
+
+.search-bar{
+  margin-top:12px;
+  max-width:1300px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.search-bar input{
+  width:100%;
+  border:none;
+  border-radius:4px;
+  padding:12px;
+  font-size:1em;
+  outline:none;
+}
+
+/* ===== Container ===== */
+.container{
+  width:95%;
+  max-width:1300px;
+  margin:18px auto 100px;
+}
+
+/* ===== Categories ===== */
+.categories{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding-bottom:8px;
+  margin-bottom:18px;
+}
+
+.category-btn{
+  border:none;
+  background:white;
+  color:#555;
+  padding:10px 18px;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:0.92em;
+  white-space:nowrap;
+  transition:0.2s;
+  border:1px solid #ddd;
+}
+
+.category-btn:hover{
+  border-color:#ee4d2d;
+  color:#ee4d2d;
+}
+
+.category-btn.active{
+  background:#ee4d2d;
+  color:white;
+  border-color:#ee4d2d;
+}
+
+/* ===== Product Grid ===== */
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:16px;
+}
+
+/* ===== Product Card ===== */
+.product-card{
+  background:white;
+  border-radius:4px;
+  overflow:hidden;
+  transition:0.2s;
+  border:1px solid #eee;
+  position:relative;
+}
+
+.product-card:hover{
+  transform:translateY(-3px);
+  border:1px solid #ee4d2d;
+  box-shadow:0 4px 12px rgba(0,0,0,0.12);
+}
+
+.product-card img{
+  width:100%;
+  height:210px;
+  object-fit:cover;
+  background:#fafafa;
+}
+
+.product-info{
+  padding:12px;
+}
+
+.product-card h3{
+  margin:0;
+  font-size:0.96em;
+  line-height:1.4;
+  height:42px;
+  overflow:hidden;
+}
+
+.product-card p{
+  margin:5px 0;
+  font-size:0.85em;
+  color:#666;
+}
+
+.price{
+  color:#ee4d2d !important;
+  font-size:1.3em !important;
+  font-weight:bold;
+  margin-top:10px !important;
+}
+
+.unit{
+  color:#999;
+  font-size:0.8em;
+}
+
+/* ===== Quantity ===== */
+.quantity-control{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:12px;
+}
+
+.quantity-control button{
+  width:30px;
+  height:30px;
+  border:none;
+  background:#f0f0f0;
+  cursor:pointer;
+  border-radius:4px;
+  font-size:1.1em;
+}
+
+.quantity-control span{
+  min-width:30px;
+  text-align:center;
+  font-size:0.95em;
+}
+
+/* ===== Add Cart ===== */
+.add-cart{
+  flex:1;
+  background:#ee4d2d !important;
+  color:white;
+  border:none;
+  height:34px;
+  border-radius:4px;
+  cursor:pointer;
+  font-size:0.9em;
+  font-weight:bold;
+}
+
+.add-cart:hover{
+  opacity:0.9;
+}
+
+.add-cart.active{
+  background:#27ae60 !important;
+}
+
+/* ===== Cart Bar ===== */
+#cartBar{
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  background:white;
+  border-top:1px solid #ddd;
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 20px;
+  z-index:999;
+  box-shadow:0 -2px 8px rgba(0,0,0,0.1);
+}
+
+#cartInfo{
+  font-size:1.1em;
+}
+
+#cartInfo span{
+  color:#ee4d2d;
+  font-weight:bold;
+}
+
+#viewCartBtn{
+  background:#ee4d2d;
+  color:white;
+  border:none;
+  padding:12px 28px;
+  border-radius:4px;
+  cursor:pointer;
+  font-size:1em;
+  font-weight:bold;
+}
+
+#viewCartBtn:hover{
+  opacity:0.92;
+}
+
+/* ===== Modal ===== */
+.modal{
+  display:none;
+  position:fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.55);
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+.modal-content{
+  background:white;
+  width:95%;
+  max-width:600px;
+  border-radius:8px;
+  padding:24px;
+  max-height:90vh;
+  overflow-y:auto;
+  position:relative;
+}
 
-#cashPanel input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 2px solid #ccc;
-    border-radius: 6px;
-    text-align: right;
-    font-size: 1.1em; /* Increase by 15% */
-    cursor: pointer;
-}
-
-#posCheckout {
-    margin-top: 8px;
-    padding: 12px;
-    font-size: 1.4em; /* Increase by 15% */
-    background: #27ae60;
-    color: white;
-    border: none;
-    border-radius: 6px;
-}
-
-#editModal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-#editModal .modalContent {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 350px;
-    text-align: center;
-}
-
-#numpad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    margin-top: 5px;
-}
-
-#numpad button {
-    padding: 20px;
-    font-size: 1.5em; /* Increase by 15% */
-}
-
-#promoButtons {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-    margin-top: 10px;
-}
-
-#promoButtons button {
-    padding: 8px;
-    background: #3498db;
-    color: white;
-    font-size: 0.9em; /* Increase by 15% */
-    border: none;
-    border-radius: 6px;
-}
-
-.modalActions {
-    display: flex;
-    gap: 5px;
-    margin-top: 10px;
-}
-
-.modalActions button {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-}
-
-.confirm {
-    background: #27ae60;
-    color: white;
-}
-
-.cancel {
-    background: #e74c3c;
-    color: white;
-}
-
-.convert {
-    background: #f39c12;
-    color: white;
-}
-
-/* Other classes remain unchanged */
-@media (max-width:600px){
-  #numpad button{padding:20px;font-size:1.5em;}
-  #editModal input{font-size:1.8em;}
-}
-#editModal.promoMode #modalInput {display: none !important; margin: 0 !important; padding: 0 !important; height: 0 !important;}  
-#printArea{display:none;width:58mm;font-size:12px;line-height:1.2em;}
-#printArea h4{text-align:center;margin:2px 0;}
-#printArea table{width:100%;border-collapse:collapse;}
-#printArea td{text-align:left;}
-#printArea td.right{text-align:right;}
-#taxSummary {
-    margin-top: 8px;
-    padding: 12px 14px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    border-left: 5px solid #f1c40f;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    font-size: 0.95em;
-}
-
-/* 每列排版 */
-#taxSummary .taxRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 6px 0;
-    white-space: nowrap;
-}
-
-/* 左邊標籤固定寬度，整體更整齊 */
-#taxSummary .label {
-    width: 90px; /* ★ 左欄固定寬度，避免晃動 */
-    color: #2c3e50;
-}
-
-/* 右邊金額使用等寬字型，永遠靠右對齊 */
-#taxSummary .value {
-    min-width: 110px; /* ★ 右側數字固定寬度 */
-    text-align: right;
-    font-family: 'Courier New', monospace; /* ★ 等寬字體 */
-    font-size: 1.05em;
-    font-weight: 600;
-    color: #2c3e50;
-}
-
-/* 稅後總額突出顯示 */
-#taxSummary .total .value {
-    color: #c0392b;
-    font-weight: bold;
-    font-size: 1.15em;
-}
-
-#todaySalesDisplay {
-    margin-top: 10px;
-    padding: 12px 15px;
-    border-radius: 10px;
-    background: #ecf0f1;
-    border-left: 6px solid #2980b9;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-
-    font-size: 14px;
-    line-height: 1.6em;
-    color: #2c3e50;
-    white-space: pre-line;
-}
-
-#todaySalesDisplay b {
-    font-size: 15px;
-    color: #2980b9;
-}
-#paymentButtons {
-    display: flex;
-    gap: 10px;
-    margin: 12px 0; /* 與下面保持一致 */
-}
-
-#paymentButtons .payBtn {
-    height: 42px; /* 原 60px × 0.7 = 42px */
-    border-radius: 6px; /* 與 taxContainer 按鈕一致 */
-    background-color: #bdc3c7; /* 初始灰色 */
-    color: #333; /* 深色文字 */
-    border: none;
-    flex: 1;            /* 平分寬度 */
-    cursor: pointer;
-    font-size: 0.9em;
-    font-weight: normal;
-    transition: 0.2s;
-}
-
-#paymentButtons .payBtn:hover {
-    background-color: #95a5a6; /* hover 稍微深一點灰 */
-}
-
-#paymentButtons .payBtn.active {
-    background-color: #f1c40f; /* 點選後變黃 */
-    color: #333;               /* 文字深色 */
-    font-weight: bold;          /* 加粗 */
-}
-
-  #discountContainer, .taxRow.total, #paymentButtons {
-    margin: 12px 0; /* 上下 12px */
-}
-#logoutBtn.active {
-    background-color: #ccc;  /* 運作中提示色，可自行調整 */
-}
-/* ======= 新的折扣/現金鍵盤：超商 POS 風格 ======= */
-#posKeypadModal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-}
-
-.keypadBox {
-  background: #2b2b2b;
-  padding: 18px;
-  width: 340px;
-  border-radius: 14px;
-  text-align: center;
-  box-shadow: 0 0 30px rgba(0,0,0,0.35);
-  position: relative; /* 讓右上 X 絕對定位在 modal 內 */
-}
-
-#posKeypadTitle {
-  margin-bottom: 10px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #fff;
-}
-
-#posKeypadInput {
-  width: 100%;
-  font-size: 32px;
-  padding: 12px;
-  margin-bottom: 15px;
-  text-align: right;
-  border: none;
-  border-radius: 8px;
-  box-sizing: border-box;
-  background: #111;
-  color: #0f0;
-  letter-spacing: 2px;
-}
-
-.posKeypadGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.posKeypadGrid button {
-  height: 60px;
-  font-size: 20px;
-  border: none;
-  border-radius: 8px;
-  background: #444;
-  color: #fff;
-  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.35);
-}
-
-.posKeypadGrid button:active {
-  transform: translateY(2px);
-  box-shadow: none;
-}
-
-.posKeypadGrid button.big {
-  background: #0277bd;  /* 藍色金額鍵 */
-  font-weight: bold;
-}
-
-.posKeypadGrid button.confirm {
-  background: #43a047;  /* 綠色確認鍵 */
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* ======= 新的折扣/現金鍵盤：超商 POS 風格 ======= */
-#posKeypadModal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 99999;
-}
-
-.keypadBox {
-  background: #2b2b2b;
-  padding: 18px;
-  width: 340px;
-  border-radius: 14px;
-  text-align: center;
-  box-shadow: 0 0 30px rgba(0,0,0,0.35);
-  position: relative; /* X 的定位 */
-}
-
-/* ⭐ 大鍵盤右上角 X */
-#posCloseBtn {
-  display: block !important;  /* 永遠顯示 */
-}
-
-/* ======== 右上角 X 按鈕 ======== */
-.closeModal {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
-  text-align: center;
-  border-radius: 50%;
-  background: #ccc;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 18px;
-  transition: background 0.2s;
-  z-index: 10;
-}
-
-.closeModal:hover {
-  background: #999;
-  color: white;
-}
-
-#posKeypadTitle {
-  margin-bottom: 10px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #fff;
-}
-
-#posKeypadInput {
-  width: 100%;
-  font-size: 32px;
-  padding: 12px;
-  margin-bottom: 15px;
-  text-align: right;
-  border: none;
-  border-radius: 8px;
-  box-sizing: border-box;
-  background: #111;
-  color: #0f0;
-  letter-spacing: 2px;
-}
-
-.posKeypadGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.posKeypadGrid button {
-  height: 60px;
-  font-size: 20px;
-  border: none;
-  border-radius: 8px;
-  background: #444;
-  color: #fff;
-  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.35);
-}
-
-.posKeypadGrid button:active {
-  transform: translateY(2px);
-  box-shadow: none;
-}
-
-.posKeypadGrid button.big {
-  background: #0277bd;
-  font-weight: bold;
-}
-
-.posKeypadGrid button.confirm {
-  background: #43a047;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-/* ======== 共用小鍵盤 modal ======== */
-#editModal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.45);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-#editModal .modalContent {
-  background: #2b2b2b;
-  padding: 20px;
-  width: 340px;
-  border-radius: 14px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.35);
-  text-align: center;
-  position: relative;
-}
-
-#modalInput {
-  width: 80%;
-  margin: 0 auto 15px auto;
-  display: block;
-  font-size: 30px;
-  padding: 12px;
-  border-radius: 8px;
-  text-align: center;
-  border: none;
-  background: #111;
-  color: #0f0;
-  letter-spacing: 2px;
-  box-sizing: border-box;
-}
-
-#numpad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-#numpad button {
-  height: 60px;
-  font-size: 22px;
-  background: #444;
-  color: white;
-  border: none;
-  border-radius: 8px;
-}
-
-.modalActions {
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.modalActions .cancel,
-.modalActions .confirm {
-  flex: 1;
-  height: 50px;
-  font-size: 20px;
-  border: none;
-  border-radius: 8px;
-  margin: 0 5px;
-  font-weight: bold;
-  color: #fff;
-}
-
-.modalActions .cancel { background: #d32f2f; }
-.modalActions .confirm { background: #43a047; }
-
-/* 初始登出按鈕 */
-#logoutBtn {
-    color: white;
-    background-color: #d35400;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* 登出中效果 */
-#logoutBtn.active {
-    animation: btnPulse 1s infinite;
-    color: #ffffff; /* 文字白色 */
-    position: relative;
-}
-
-/* 漸變閃爍動畫 */
-@keyframes btnPulse {
-    0%   { background-color: #e67e22; color: #ffffff; }
-    50%  { background-color: #f39c12; color: #ffffff; }
-    100% { background-color: #e67e22; color: #ffffff; }
-}
-
-/* 閃爍小點 */
-#logoutBtn.active::after {
-    content: '•';
-    animation: blink 1s infinite;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: white;
-}
-
-@keyframes blink {
-    0%, 50%, 100% { opacity: 0; }
-    25%, 75% { opacity: 1; }
-}
-.modal-box{
-    position:relative;
-}
-
-/* ✕ 右上角固定 */
 .modal-close{
-    position:absolute;
-    top:10px;
-    right:10px;
-
-    width:36px;
-    height:36px;
-    border-radius:50%;
-
-    border:none;
-    background:#ff3b30;
-    color:#fff;
-
-    font-size:20px;
-    font-weight:bold;
-
-    cursor:pointer;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    box-shadow:0 2px 8px rgba(0,0,0,0.2);
-
-    transition:0.2s;
+  position:absolute;
+  right:18px;
+  top:15px;
+  font-size:1.5em;
+  color:#999;
+  cursor:pointer;
 }
 
-.modal-close:hover{
-    background:#d70015;
-    transform:scale(1.1);
+#cartItems div{
+  padding:10px 0;
+  border-bottom:1px solid #eee;
+}
+
+/* ===== Form ===== */
+select,input{
+  width:100%;
+  padding:11px;
+  border:1px solid #ccc;
+  border-radius:4px;
+  margin-top:6px;
+  margin-bottom:10px;
+}
+
+#checkoutBtn{
+  width:100%;
+  background:#ee4d2d;
+  color:white;
+  border:none;
+  padding:14px;
+  border-radius:4px;
+  font-size:1em;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+#checkoutBtn:hover{
+  opacity:0.9;
+}
+
+/* ===== Loading ===== */
+#loadingOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(255,255,255,0.9);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:10000;
+  font-size:1.2em;
+}
+
+#loadingOverlay span{
+  animation:blink 1.2s infinite;
+}
+
+@keyframes blink{
+  0%,100%{opacity:1;}
+  50%{opacity:0.3;}
+}
+
+/* ===== Mobile ===== */
+@media(max-width:768px){
+
+  .products{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+
+  .product-card img{
+    height:160px;
+  }
+
+  .logo{
+    font-size:1.2em;
+  }
+
+  #viewCartBtn{
+    padding:10px 18px;
+  }
 }
 </style>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 
-  
 <body>
 
-<!-- 登入頁面 -->
-<div id="loginPage" style="display:flex;justify-content:center;align-items:center;height:100vh;background:#3498db;">
-  <div style="background:white;padding:40px 30px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,0.2);width:320px;text-align:center;">
-    <h2 style="margin-bottom:20px;color:#2c3e50;">彩鮮 POS 系統 登入</h2>
-    <input id="storeInput" placeholder="門市編號" style="width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;font-size:1em;">
-    <input id="passwordInput" placeholder="密碼" type="password" style="width:100%;padding:10px;margin:10px 0;border-radius:6px;border:1px solid #ccc;font-size:1em;">
-    <button id="loginBtn" style="width:100%;padding:12px;margin-top:15px;border:none;border-radius:6px;background:#27ae60;color:white;font-size:1em;cursor:pointer;transition:0.2s;">登入</button>
-    <p id="loginMsg" style="color:red;margin-top:10px;font-size:0.9em;"></p>
+<div id="loadingOverlay">
+  <span>載入中...</span>
+</div>
+
+<header>
+
+  <div class="header-top">
+    <div class="logo">🛒 生鮮商城</div>
+    <div id="greeting">您好，會員</div>
   </div>
-</div>
 
-<!-- POS 主頁 -->
-<div id="posApp" style="display:none;">
-  <div id="posCategories">
-    <div id="storeInfo" style="font-size:14px; font-weight:bold; margin-bottom:10px;"></div>
-    <div id="loginTime" style="font-size:12px; color: white; margin-bottom: 10px;"></div>
-    <button id="logoutBtn" style="margin-bottom:10px; font-size:13px; background-color:#d35400; border:none; padding:5px 10px; cursor:pointer; color:white;">
-    登出
-</button>
-<input type="text" id="searchBox" placeholder="搜尋商品">
-    <h3>分類</h3>
+  <div class="search-bar">
+    <input type="text" placeholder="搜尋商品..." id="searchInput">
   </div>
-  <div id="posProducts"></div>
-  <div id="posCartContainer">
-    <h3 style="font-size:100%;">訂單明細</h3>
-    <div class="cartHeader">
-      <span>商品</span><span>數量</span><span>單價</span><span>小計</span><span>刪除</span>
-    </div>
-    <div id="posCart"></div>
-    
-    <div id="taxContainer">
-  <button id="taxIncluded" class="active" onclick="setTax('應稅')">應稅</button>
-  <button id="taxExempt" onclick="setTax('免稅')">免稅</button>
+
+</header>
+
+<div class="container">
+
+  <div class="categories" id="categoryContainer"></div>
+
+  <div class="products" id="productContainer"></div>
+
 </div>
 
-<div id="taxSummary">
-  <div class="taxRow">
-    <span class="label">稅前金額：</span>
-    <span class="value"><span id="beforeTax">0</span> 元</span>
+<!-- 購物車 -->
+<div id="cartBar">
+
+  <div id="cartInfo">
+    訂單小計：<span>0 元</span>
   </div>
-  <div class="taxRow">
-    <span class="label">稅額：</span>
-    <span class="value"><span id="taxAmount">0</span> 元</span>
-  </div>
-  <div class="taxRow total">
-    <span class="label">稅後總額：</span>
-    <span class="value"><span id="afterTax">0</span> 元</span>
-  </div>
-</div>
-<div id="discountContainer">
-      <input type="text" id="discount" placeholder="折扣金額" readonly>
-    </div>
-   <div class="taxRow total">
-  <span class="label">應收總額：</span>
-  <span class="value"><span id="posTotal">0</span> 元</span>
+
+  <button id="viewCartBtn">
+    去結帳
+  </button>
+
 </div>
 
+<!-- Modal -->
+<div class="modal" id="cartModal">
 
-   <div id="paymentButtons">
-  <button class="payBtn" data-pay="現金">現金</button>
-  <button class="payBtn" data-pay="信用卡">信用卡</button>
-  <button class="payBtn" data-pay="Line Pay">Line Pay</button>
-</div>
+  <div class="modal-content">
 
-<div id="cashPanel" style="display:none; margin-top:10px;">
-  收現金：<input type="number" id="cashInput" value="0" placeholder="收現金額">
-  找零：<span id="changeOut">0</span> 元
-</div>
+    <span class="modal-close" id="cartClose">&times;</span>
 
-<input type="hidden" id="posPayment" value="">
+    <h2>購物車</h2>
 
-  <!-- 結帳按鈕 -->
-<button id="posCheckout">結帳列印</button>
+    <div id="cartItems"></div>
 
-<div id="shiftDailyContainer" style="display:flex; gap:10px; margin:20px 0;">
-  <button id="shiftEndBtn" style="flex:1; background:#c0392b; color:white; border:none; border-radius:6px; padding:10px;">交班結算</button>
-  <button id="dailySalesBtn" style="flex:1; background:#2980b9; color:white; border:none; border-radius:6px; padding:10px;">當日營業額</button>
-  <button id="orderQueryBtn">訂單查詢</button>
-</div>
+    <h3>
+      總額：
+      <span style="color:#ee4d2d;">
+        $<span id="cartTotal">0</span>
+      </span>
+    </h3>
 
-<div id="todaySalesDisplay" style="margin-top:10px; white-space:pre-line;"></div>
+    <h4>付款方式</h4>
 
-<!-- ======== 小鍵盤 / 優惠方案共用 Modal ======== -->
-<div id="editModal">
-  <div class="modalContent">
-    <span class="closeModal" id="editCloseBtn" onclick="closeModal()">×</span>
-    <h4 id="modalProductName" style="color:#fff;">輸入</h4>
-    <input id="modalInput">
+    <select id="paymentMethod">
+      <option value="現金">現金</option>
+      <option value="信用卡">信用卡</option>
+      <option value="Line Pay">Line Pay</option>
+    </select>
 
-    <!-- 小鍵盤 -->
-    <div id="numpad">
-      <button onclick="np('7')">7</button><button onclick="np('8')">8</button><button onclick="np('9')">9</button>
-      <button onclick="np('4')">4</button><button onclick="np('5')">5</button><button onclick="np('6')">6</button>
-      <button onclick="np('1')">1</button><button onclick="np('2')">2</button><button onclick="np('3')">3</button>
-      <button onclick="np('0')">0</button><button onclick="np('.')">.</button><button onclick="backspace()">←</button>
+    <h4>取貨方式</h4>
+
+    <select id="deliveryMethod">
+      <option value="" selected disabled>請選擇取貨方式</option>
+      <option value="自取">自取</option>
+      <option value="外送">外送</option>
+    </select>
+
+    <div id="selfPickup" style="display:none;">
+      <p>選擇取貨門市</p>
+      <select id="pickupStore"></select>
     </div>
 
-    <!-- 優惠方案按鈕 -->
-    <div id="promoButtons"></div>
+    <div id="deliveryForm" style="display:none;">
+      <p>請輸入收件資訊</p>
 
-    <!-- 小鍵盤確認/取消按鈕 -->
-    <div class="modalActions">
-      <button class="cancel" onclick="closeModal()">取消</button>
-      <button class="confirm" onclick="confirmEdit()">確定</button>
+      <input type="text" id="receiverName" placeholder="姓名">
+
+      <input type="text" id="receiverPhone" placeholder="電話">
+
+      <input type="text" id="receiverAddress" placeholder="地址">
     </div>
-  </div>
-</div>
 
-<!-- ======= POS 大鍵盤（折扣 / 收現金 專用） ======= -->
-<div id="posKeypadModal">
-  <div class="keypadBox">
-    <span class="closeModal" id="posCloseBtn" onclick="closeModal()">×</span>
-    <h3 id="posKeypadTitle">輸入</h3>
-    <input id="posKeypadInput" readonly>
-    <div class="posKeypadGrid">
-      <button class="big" onclick="kpInput('1000')">1000</button>
-      <button onclick="kpInput('7')">7</button>
-      <button onclick="kpInput('8')">8</button>
-      <button onclick="kpInput('9')">9</button>
-
-      <button class="big" onclick="kpInput('500')">500</button>
-      <button onclick="kpInput('4')">4</button>
-      <button onclick="kpInput('5')">5</button>
-      <button onclick="kpInput('6')">6</button>
-
-      <button class="big" onclick="kpInput('100')">100</button>
-      <button onclick="kpInput('1')">1</button>
-      <button onclick="kpInput('2')">2</button>
-      <button onclick="kpInput('3')">3</button>
-
-      <button class="confirm" onclick="kpConfirm()">確認</button>
-      <button onclick="kpInput('00')">00</button>
-      <button onclick="kpInput('0')">0</button>
-      <button onclick="kpBack()">←</button>
-    </div>
-  </div>
-</div>
-    
-<!-- 列印收據區 -->
-<div id="printArea"></div>
-<div id="orderModal" style="display:none;position:fixed;inset:0;background:#0008;">
-<div style="width:500px;height:80vh;background:#fff;margin:auto;overflow:auto;padding:10px;">
-<div id="orderModal" class="modal-overlay">
-
-  <div class="modal-box">
-
-    <!-- ✕ 關閉按鈕（右上角） -->
-    <button class="modal-close"
-      onclick="document.getElementById('orderModal').style.display='none'">
-      ✕
+    <button id="checkoutBtn">
+      立即結帳
     </button>
 
-    <h3 class="modal-title">📋 今日訂單查詢</h3>
-
-    <div id="orderListBox"></div>
-
   </div>
+
 </div>
-    </div>
-    </div>
-</body>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwSHUTyB0cYk02V4x-yES0VskNFQf96Mx6HYK0xEOqUzhZYRBoRR-wMgIzWvCQmkoR6-Q/exec";
-function formatNumber(num) { if (num === null || num === undefined || num === "") return "0"; let n = Number(num); if (isNaN(n)) return "0"; return n.toLocaleString('zh-TW'); }
-let POS_STORE = "";
-let posCart = [], currentTax = "應稅";
-let editIndex = null;       // 正在編輯的商品索引
-let editingField = null;    // 正在編輯的欄位
-let modalType = null;
-let kpTarget = null;
-let orderList = [];
-const ENABLE_PRINT = false; // true = 開啟列印 / false = 停用列印
-    /* ===== 金額進位規則（一定要最前面） ===== */
-const MONEY_ROUND_MODE = "round";
-function roundMoney(v) {
-    v = Number(v) || 0;
-    switch (MONEY_ROUND_MODE) {
-        case "floor": return Math.floor(v);
-        case "ceil":  return Math.ceil(v);
-        default:      return Math.round(v);
-    }
-}
+const API_URL = "https://script.google.com/macros/s/AKfycbz_VaPxbndfTGn7AD7172q0WnqvqRW4c_corHHSQl4PS8L2xAQbt9vjr7hnGnhijkY/exec";
 
-  // ====== 更快的 IP 取得（含 sessionStorage 快取）======
-async function getIP() {
-    const cache = sessionStorage.getItem("myIP");
-    if (cache) return cache;
+let products=[], categories=[], cart=[], userId="", userName="";
+let pickupStores = [];
 
-    try {
-        const res = await fetch("https://api.ipify.org?format=json");
-        const data = await res.json();
-        sessionStorage.setItem("myIP", data.ip);
-        return data.ip;
-    } catch {
-        return "";
-    }
-}
+/* ---------- 初始化 LIFF ---------- */
+async function initLIFF(){
 
-function updateLoginTime() {
-  const now = new Date();
-  document.getElementById("loginTime").innerText = `登入時間：${now.toLocaleString("zh-TW",{hour12:false})}`;
-}
+  await liff.init({
+    liffId:"2008573741-WGE2G7lZ"
+  });
 
-async function login() {
-  const loginBtn = document.getElementById("loginBtn");
-  loginBtn.innerText = "登入中...";
-  loginBtn.disabled = true;
+  if(liff.isLoggedIn()){
 
-  const store = document.getElementById("storeInput").value;
-  const pwd = document.getElementById("passwordInput").value;
-  const userIP = await getIP();
+    const profile = await liff.getProfile();
 
-  try {
-    const res = await fetch(`${API_URL}?action=login&store=${store}&pwd=${pwd}&ip=${userIP}`);
-    const data = await res.json();
+    userId = profile.userId;
+    userName = profile.displayName;
 
-    if (data.status === "success") {
-      POS_STORE = data.storeCode;
+    document.getElementById("greeting").textContent =
+      `${userName} 您好`;
 
-      // 隱藏登入頁，顯示 POS
-      document.getElementById("loginPage").style.display = "none";
-      document.getElementById("posApp").style.display = "flex";
-
-      // ⭐ 加這行：進入全螢幕
-      enterFullscreen();
-
-      // 顯示門市資訊
-      document.getElementById("storeInfo").innerText = `${data.storeName}（${data.storeCode}）`;
-
-      // 更新並每秒刷新登入時間
-      updateLoginTime();
-      setInterval(updateLoginTime, 1000);
-      
-      // 取得商品資料
-      fetchProducts();
-    } else {
-      document.getElementById("loginMsg").innerText = data.message;
-      loginBtn.innerText = "登入";
-      loginBtn.disabled = false;
-    }
-  } catch (err) {
-    console.error(err);
-    document.getElementById("loginMsg").innerText = "登入失敗，請稍後再試";
-    loginBtn.innerText = "登入";
-    loginBtn.disabled = false;
+  }else{
+    liff.login();
   }
 }
 
-// ===== 更新登入時間 =====
-function updateLoginTime() {
-  const now = new Date();
-  const timeStr = now.toLocaleString("zh-TW", { hour12: false });
-  document.getElementById("loginTime").innerText = `登入時間：${timeStr}`;
-}
+/* ---------- 抓商品資料 ---------- */
+async function fetchProducts(){
 
-document.getElementById("logoutBtn").onclick = logout;
+  try{
 
-async function logout() {
-    const logoutBtn = document.getElementById("logoutBtn");
+    const res = await fetch(API_URL+"?action=products");
 
-    // 點擊後才改文字
-    logoutBtn.disabled = true;
-    logoutBtn.innerText = "登出中...";
-    logoutBtn.classList.add("active");
-
-    const now = new Date();
-    const logoutTime = now.toLocaleString("zh-TW", { hour12: false });
-
-    try {
-        await fetch(`${API_URL}?action=logout&store=${POS_STORE}&time=${encodeURIComponent(logoutTime)}`);
-    } catch (err) {
-        console.error(err);
-    } finally {
-        // 隱藏 POS 主頁，顯示登入頁
-        document.getElementById("posApp").style.display = "none";
-        document.getElementById("loginPage").style.display = "flex";
-        // ⭐ 退出全螢幕（加這行）
-        exitFullscreen();
-        // 清空登入欄位
-        document.getElementById("storeInput").value = "";
-        document.getElementById("passwordInput").value = "";
-        document.getElementById("loginMsg").innerText = "";
-
-        // 重置登入按鈕
-        const loginBtn = document.getElementById("loginBtn");
-        loginBtn.innerText = "登入";
-        loginBtn.disabled = false;
-
-        // 清除 POS_STORE
-        POS_STORE = "";
-
-        // 恢復登出按鈕狀態
-        logoutBtn.disabled = false;
-        logoutBtn.innerText = "登出"; // 固定回「登出」
-        logoutBtn.classList.remove("active");
-    }
-}
-
-// 綁定按鈕事件
-document.getElementById("loginBtn").addEventListener("click", login);
-document.getElementById("logoutBtn").addEventListener("click", logout);
-
-// 登入後直接進入全螢幕
-function enterFullscreen() {
-  const elem = document.documentElement;
-
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.webkitRequestFullscreen) { // Safari
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) { // IE11
-    elem.msRequestFullscreen();
-  }
-}
-
-/* ⭐ 放這裡最清楚（建議） */
-function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) {
-    document.msExitFullscreen();
-  }
-}
-// ===== 取得商品 =====
-async function fetchProducts() {
-    const res = await fetch(API_URL + "?action=products");
     products = await res.json();
-    categories = [...new Set(products.map(x => x["類別"]))];
+
+    categories =
+      [...new Set(products.map(p => p['類別']))]
+      .filter(Boolean);
+
     renderCategories();
-    if (categories.includes("無菜單")) {
-    renderProducts("無菜單");
 
-    // 同步讓按鈕亮起來
-    setTimeout(() => {
-        document.querySelectorAll("#posCategories button.cat-btn").forEach(b => {
-            b.classList.toggle("active", b.textContent === "無菜單");
-        });
-    }, 0);
-
-} else if (categories.length > 0) {
-    renderProducts(categories[0]);
-}
-}
-  
-
-// ===== 渲染分類 =====
-function renderCategories() {
-    const box = document.getElementById("posCategories");
-    box.querySelectorAll("button.cat-btn").forEach(b => b.remove());
-
-    categories.forEach(cat => {
-        const btn = document.createElement("button");
-        btn.classList.add("cat-btn");
-        btn.textContent = cat;
-        btn.onclick = () => {
-            document.querySelectorAll("#posCategories button.cat-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            renderProducts(cat);
-        };
-        box.appendChild(btn);
-    });
-
-    const firstBtn = box.querySelector("button.cat-btn");
-    if (firstBtn) firstBtn.classList.add("active");
-}
-
-// ===== 搜尋商品 =====
-document.getElementById("searchBox").oninput = function () {
-    renderProducts(null, this.value.trim().toLowerCase());
-};
-
-  function parseNumber(str) {
-    return Number(str.replace(/,/g, ""));
-}
-
-// ===== 渲染商品 =====
-function renderProducts(category = null, search = "") {
-    const box = document.getElementById("posProducts");
-    box.innerHTML = "";
-    products.filter(p => {
-        if (category && p["類別"] !== category) return false;
-        if (search && !p["商品名稱"].toLowerCase().includes(search)) return false;
-        return true;
-    }).forEach(p => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-        card.innerHTML = `<img src="${p["商品照片"]}"><h4>${p["商品名稱"]}</h4><p>${p["售價"]} 元 / ${p["單位"]}</p>`;
-        card.onclick = () => addPOSItem(p);
-        box.appendChild(card);
-    });
-}
-
-// ===== 加入購物車 =====
-function addPOSItem(p) {
-    let qtyAdd = 1;
-    let pricePerUnit = Number(p["售價"]);
-    let unit = p["單位"];
-    if (p["單位"] === "半斤") { qtyAdd = 0.5; pricePerUnit *= 2; unit = "斤"; }
-    let exist = posCart.find(x => x.name === p["商品名稱"]);
-    if (exist) { exist.quantity += qtyAdd; }
-    else { posCart.push({ name: p["商品名稱"], quantity: qtyAdd, price: pricePerUnit, unit: unit, discount: null }); }
-    renderCart();
-}
-
-// 初始化付款方式按鈕
-function initPOSButtons() {
-    const buttons = document.querySelectorAll("#paymentButtons .payBtn");
-    buttons.forEach(btn => {
-        btn.addEventListener("click", function () {
-
-            // 取消所有 active
-            buttons.forEach(b => b.classList.remove("active"));
-
-            // 設定 active
-            this.classList.add("active");
-
-            // 寫入隱藏欄位
-            const pay = this.getAttribute("data-pay");
-            document.getElementById("posPayment").value = pay;
-
-            const cashPanel = document.getElementById("cashPanel");
-            const cashInput = document.getElementById("cashInput");
-            const changeOut = document.getElementById("changeOut");
-
-            if (pay === "現金") {
-                cashPanel.style.display = "block";
-            } else {
-                cashPanel.style.display = "none";
-                cashInput.value = "";
-                changeOut.innerText = "0";
-            }
-
-            renderCart(); // 更新總額/找零
-        });
-    });
-}
-
-document.addEventListener("DOMContentLoaded", initPOSButtons);
-// ===== 預設付款方式：現金 =====
-const defaultBtn = document.querySelector('#paymentButtons .payBtn[data-pay="現金"]');
-if (defaultBtn) {
-    defaultBtn.classList.add("active");
-    document.getElementById("posPayment").value = "現金";
-
-    // 顯示現金面板
-    document.getElementById("cashPanel").style.display = "block";
-}
-// ===== 渲染購物車 =====
-function renderCart() {
-    const box = document.getElementById("posCart");
-    box.innerHTML = "";
-
-    let totalBeforeTaxRaw = 0;   // ← 原始（可小數）
-    let totalBeforeTax = 0;      // ← 進位後（整數）
-
-    posCart.forEach((item, i) => {
-        let sub = item.quantity * item.price;
-
-        if (item.discount) {
-            switch (item.discount.type) {
-                case "第二件減10": sub -= Math.floor(item.quantity / 2) * 10; break;
-                case "買二送一": sub -= Math.floor(item.quantity / 3) * item.price; break;
-                case "買一送一": sub -= Math.floor(item.quantity / 2) * item.price; break;
-                case "第二件6折": sub -= Math.floor(item.quantity / 2) * item.price * 0.4; break;
-                default: sub *= item.discount.rate || 1; break;
-            }
-        }
-
-        totalBeforeTaxRaw += sub;
-
-        const row = document.createElement("div");
-        row.className = "cartRow";
-        row.innerHTML = `
-            <span class="name" onclick="openPromoModal(posCart[${i}])">${item.name}</span>
-            <span class="qty" onclick="openEditModal(${i},'quantity')">${item.quantity.toFixed(2)} ${item.unit}</span>
-            <span class="price" onclick="openEditModal(${i},'price')">${item.price}</span>
-            <span class="subtotal">${formatNumber(roundMoney(sub))}</span>
-            <span class="remove"><button onclick="removeItem(${i})">刪</button></span>`;
-        box.appendChild(row);
-    });
-
-    // 👉 稅前總額（只在這裡進位一次）
-    totalBeforeTax = roundMoney(totalBeforeTaxRaw);
-
-    // 👉 稅額
-    let tax = currentTax === "應稅"
-        ? roundMoney(totalBeforeTax * 0.05)
-        : 0;
-
-    // 👉 稅後
-    let afterTax = totalBeforeTax + tax;
-
-    // 👉 折扣
-    let discountValue = roundMoney(
-        Number(document.getElementById("discount").value) || 0
-    );
-
-    // 👉 應收總額（唯一金流出口）
-    let receivable = roundMoney(afterTax - discountValue);
-
-    // ===== 更新畫面 =====
-    document.getElementById("beforeTax").innerText = formatNumber(totalBeforeTax);
-    document.getElementById("taxAmount").innerText = formatNumber(tax);
-    document.getElementById("afterTax").innerText = formatNumber(afterTax);
-
-    const posTotalEl = document.getElementById("posTotal");
-    posTotalEl.dataset.value = receivable;   // ← 一定是整數
-    posTotalEl.innerText = formatNumber(receivable);
-
-    updateChange();
-}
-
-
-// ===== 計算找零 =====
-function updateChange() {
-    const cash = roundMoney(
-        Number(document.getElementById("cashInput").value) || 0
-    );
-
-    const total = roundMoney(
-        Number(document.getElementById("posTotal").dataset.value) || 0
-    );
-
-    const change = cash - total;
-    document.getElementById("changeOut").innerText =
-        formatNumber(Math.max(change, 0));
-}
-
-
-// ===== 千分位格式化 =====
-function formatNumber(num) {
-    return num.toLocaleString("zh-TW");
-}
-
-// ===== 監聽折扣與現金輸入變動，立即更新找零 =====
-document.getElementById("discount").addEventListener("input", renderCart);
-document.getElementById("cashInput").addEventListener("input", updateChange);
-
-
-async function updateTodaySales() {
-  const now = new Date();
-  const formatDate = now.getFullYear() + "/" +
-                     String(now.getMonth() + 1).padStart(2, "0") + "/" +
-                     String(now.getDate()).padStart(2, "0");
-
-  try {
-    const res = await fetch(`${API_URL}?action=todaySales&storeCode=${POS_STORE}&date=${formatDate}`);
-    const data = await res.json();
-
-    if(data.status === "success") {
-    document.getElementById("todaySalesDisplay").innerHTML =
-    `<b>今日營業概況</b>
-—————————————
-總額：${data.total.toFixed(0)} 元
-現金：${data.cash.toFixed(0)} 元
-信用卡：${data.credit.toFixed(0)} 元
-Line Pay：${data.linePay.toFixed(0)} 元`;
-
-    } else {
-      console.error("取得今日營業額失敗：", data.message);
+    if(categories[0]){
+      renderProducts(categories[0]);
     }
-  } catch (err) {
-    console.error("更新今日營業額時發生錯誤：", err);
+
+    const storeRes =
+      await fetch(API_URL+"?action=stores");
+
+    pickupStores = await storeRes.json();
+
+    const storeSelect =
+      document.getElementById("pickupStore");
+
+    pickupStores.forEach(s=>{
+
+      const opt=document.createElement("option");
+
+      opt.value=s;
+      opt.textContent=s;
+
+      storeSelect.appendChild(opt);
+
+    });
+
+  }catch(e){
+
+    console.error("抓取失敗:", e);
+
+  }
+
+  document.getElementById("loadingOverlay").style.display="none";
+}
+
+/* ---------- 分類 ---------- */
+function renderCategories(){
+
+  const container =
+    document.getElementById("categoryContainer");
+
+  container.innerHTML="";
+
+  categories.forEach(cat=>{
+
+    const btn=document.createElement("button");
+
+    btn.className="category-btn";
+
+    btn.textContent=cat;
+
+    btn.onclick=()=>{
+
+      document.querySelectorAll(".category-btn")
+      .forEach(b=>b.classList.remove("active"));
+
+      btn.classList.add("active");
+
+      renderProducts(cat);
+
+    }
+
+    container.appendChild(btn);
+
+  });
+
+  if(container.firstChild){
+    container.firstChild.classList.add("active");
   }
 }
 
-// 每 10 秒自動刷新一次
-setInterval(updateTodaySales, 30000);
+/* ---------- 商品 ---------- */
+function renderProducts(category){
 
-// 頁面載入立即更新一次
-updateTodaySales();
+  const container =
+    document.getElementById("productContainer");
 
-// 交班按鈕
-const shiftBtn = document.getElementById("shiftEndBtn");
+  container.innerHTML="";
 
-shiftBtn.onclick = async function () {
-  if (shiftBtn.disabled) return; // 防止連點
+  const keyword =
+    document.getElementById("searchInput")
+    .value
+    .trim();
 
-  if (posCart.length > 0 && !confirm("購物車尚有未結帳商品，是否仍交班？")) return;
+  products
+  .filter(p =>
+    p['類別']?.trim() === category?.trim()
+  )
+  .filter(p =>
+    p['商品名稱']
+    .includes(keyword)
+  )
+  .forEach(p=>{
 
-  // 👉 記住原本文字
-  const originalText = shiftBtn.innerText;
+    const idName =
+      encodeURIComponent(p['商品名稱']);
 
-  try {
-    // 👉 進入處理中狀態
-    shiftBtn.disabled = true;
-    shiftBtn.innerText = "交班處理中...";
+    const card=document.createElement("div");
 
-    const now = new Date();
-    const formatDate = now.getFullYear() + "/" +
-      String(now.getMonth() + 1).padStart(2, "0") + "/" +
-      String(now.getDate()).padStart(2, "0");
+    card.className="product-card";
 
-    const formatTime = String(now.getHours()).padStart(2, "0") + ":" +
-      String(now.getMinutes()).padStart(2, "0") + ":" +
-      String(now.getSeconds()).padStart(2, "0");
+    card.innerHTML=`
 
-    const payload = {
-      storeCode: POS_STORE,
-      storeName: document.getElementById("storeInfo").innerText.split("（")[0],
-      shiftDate: formatDate,
-      shiftEndTime: formatTime
-    };
+      <img src="${p['商品照片']}" loading="lazy">
 
-    const res = await fetch(`${API_URL}?action=shiftEnd`, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
+      <div class="product-info">
 
-    const data = await res.json();
+        <h3>${p['商品名稱']}</h3>
 
-    alert(`交班成功！
-本班總營業額：${data.total} 元
-現金：${data.cash} 元
-信用卡：${data.credit} 元
-Line Pay：${data.linePay} 元`);
+        <p>${p['特色說明'] || ''}</p>
 
-    posCart = [];
-    renderCart();
-    updateTodaySales();
+        <p class="unit">
+          ${p['單位']}
+        </p>
 
-  } catch (err) {
-    alert("交班失敗：" + err.message);
-  } finally {
-    // 👉 無論成功或失敗都恢復按鈕
-    shiftBtn.disabled = false;
-    shiftBtn.innerText = originalText;
+        <p class="price">
+          $${p['售價']}
+        </p>
+
+        <div class="quantity-control">
+
+          <button onclick="changeQty('${idName}',-1)">
+            -
+          </button>
+
+          <span id="qty-${idName}">
+            1
+          </span>
+
+          <button onclick="changeQty('${idName}',1)">
+            +
+          </button>
+
+          <button
+            class="add-cart"
+            onclick="addToCartWithAnimation('${idName}',this)">
+            加入
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    container.appendChild(card);
+
+  });
+}
+
+/* ---------- 搜尋 ---------- */
+document.getElementById("searchInput")
+.addEventListener("input",()=>{
+
+  const active =
+    document.querySelector(".category-btn.active");
+
+  if(active){
+    renderProducts(active.textContent);
   }
-};
-
-
-// ===== 刪除商品 =====
-function removeItem(i) { posCart.splice(i, 1); renderCart(); }
-
-// ===== 編輯數量/折扣/收現 =====
-document.getElementById("discount").onclick = () => {
-  openPOSKeypad("discount", document.getElementById("discount").value);
-};
-
-document.getElementById("cashInput").onclick = () => {
-  openPOSKeypad("cash", document.getElementById("cashInput").value);
-};
-
-/* ===========================================================
-   【打開 小鍵盤 / 大鍵盤 編輯 Modal】
-=========================================================== */
-function openEditModal(index, field) {
-    editIndex = index;
-    editingField = field;
-    modalType = "edit";
-
-    const modal = document.getElementById("editModal");
-    const promoDiv = document.getElementById("promoButtons");
-    const numpad = document.getElementById("numpad");
-    const modalActions = document.querySelector("#editModal .modalActions");
-    const modalInput = document.getElementById("modalInput");
-
-    // 共用初始化
-    promoDiv.style.display = 'none';
-    document.getElementById("editCloseBtn").style.display = 'none';
-
-    // ====== 大鍵盤模式（折扣 or 收現金）======
-    if (field === 'discount' || field === 'cash') {
-        kpTarget = field;
-        document.getElementById("posKeypadTitle").innerText =
-            field === "discount" ? "輸入折扣" : "收現金";
-
-        document.getElementById("posKeypadInput").value =
-            field === "discount"
-                ? document.getElementById("discount").value
-                : document.getElementById("cashInput").value || "";
-
-        document.getElementById("posKeypadModal").style.display = "flex";
-        return;
-    }
-
-    // ====== 小鍵盤模式 ======
-    numpad.style.display = 'grid';
-    modalInput.style.display = 'block';
-    modalInput.readOnly = false;
-    modalActions.style.display = 'flex';
-
-    modalInput.value = posCart[index]?.[field] ?? "";
-    document.getElementById("modalProductName").innerText = "輸入";
-    document.getElementById("modalProductName").style.color = "#fff";
-    modal.style.display = "flex";
-}
-
-/* ===========================================================
-   【優惠方案 Modal】
-=========================================================== */
-function openPromoModal(item) {
-    modalType = 'promo';
-    editIndex = null;
-
-    const modal = document.getElementById("editModal");
-    const promoDiv = document.getElementById("promoButtons");
-
-    document.getElementById("numpad").style.display = 'none';
-    document.getElementById("modalInput").style.display = 'none';
-    promoDiv.style.display = 'grid';
-    promoDiv.innerHTML = '';
-    document.querySelector("#editModal .modalActions").style.display = 'none';
-    document.getElementById("editCloseBtn").style.display = 'block';
-
-    const promoList = [
-        { name: '95折', rate: 0.95 },
-        { name: '9折', rate: 0.9 },
-        { name: '85折', rate: 0.85 },
-        { name: '8折', rate: 0.8 },
-        { name: '7折', rate: 0.7 },
-        { name: '6折', rate: 0.6 },
-        { name: '買一送一', type: '買一送一' },
-        { name: '買二送一', type: '買二送一' },
-        { name: '第二件減10', type: '第二件減10' },
-        { name: '第二件6折', type: '第二件6折' }
-    ];
-
-    promoList.forEach(p => {
-        const btn = document.createElement("button");
-        btn.innerText = p.name;
-        btn.onclick = () => {
-            let idx = posCart.findIndex(x => x.name === item.name);
-            if (idx === -1) addPOSItem(item);
-
-            idx = posCart.findIndex(x => x.name === item.name);
-            if (idx !== -1) {
-                posCart[idx].discount = p.type
-                    ? { type: p.type }
-                    : { rate: p.rate, type: "折扣" };
-            }
-
-            closeModal();
-            renderCart();
-        };
-        promoDiv.appendChild(btn);
-    });
-
-    document.getElementById("modalProductName").innerText = item.name;
-    modal.style.display = "flex";
-}
-
-/* ===========================================================
-   【小鍵盤操作】
-=========================================================== */
-function np(v) {
-    const input = document.getElementById("modalInput");
-    input.value += v;
-}
-
-function backspace() {
-    const input = document.getElementById("modalInput");
-    input.value = input.value.slice(0, -1);
-}
-
-function confirmEdit() {
-    const val = document.getElementById("modalInput").value;
-
-    if (editIndex !== null && editingField === 'quantity' && posCart[editIndex].unit === '斤') {
-        const [j = 0, l = 0, q = 0] = val.split('.').map(Number);
-        posCart[editIndex].quantity = j + l / 16 + q / 160;
-    } else if (editIndex !== null) {
-        posCart[editIndex][editingField] = Number(val);
-    }
-
-    closeModal();
-    renderCart();
-}
-
-/* ===========================================================
-   【關閉 Modal（統一）】
-=========================================================== */
-function closeModal() {
-    document.getElementById("editModal").style.display = 'none';
-    document.getElementById("posKeypadModal").style.display = 'none';
-
-    // 恢復預設 UI
-    document.querySelector("#editModal .modalActions").style.display = 'flex';
-    document.getElementById("modalInput").style.display = 'block';
-    document.getElementById("modalInput").readOnly = false;
-    document.getElementById("numpad").style.display = 'grid';
-    document.getElementById("promoButtons").style.display = 'none';
-    document.getElementById("editCloseBtn").style.display = 'none';
-}
-
-/* ===========================================================
-   【POS 大鍵盤輸入 / 刪除 / 確認（統一版本）】
-=========================================================== */
-function openPOSKeypad(type, value = "0") {
-    kpTarget = type;
-    document.getElementById("posKeypadTitle").innerText =
-        type === "discount" ? "折扣金額" : "收現金";
-
-    document.getElementById("posKeypadInput").value = value;
-    document.getElementById("posKeypadModal").style.display = "flex";
-}
-
-function kpInput(v) {
-    const input = document.getElementById("posKeypadInput");
-    if (input.value === "0") input.value = "";
-    input.value += v;
-}
-
-function kpBack() {
-    const input = document.getElementById("posKeypadInput");
-    input.value = input.value.slice(0, -1);
-    if (!input.value) input.value = "0";
-}
-
-function kpConfirm() {
-    const v = document.getElementById("posKeypadInput").value;
-
-    if (kpTarget === "discount") {
-        document.getElementById("discount").value = v;
-        renderCart();
-    }
-
-    if (kpTarget === "cash") {
-        document.getElementById("cashInput").value = v;
-        updateChange();
-    }
-
-    document.getElementById("posKeypadModal").style.display = "none";
-}
-
-  
-function setTax(t) {
-    currentTax = t;
-    document.getElementById("taxIncluded").classList.toggle('active', t === "應稅");
-    document.getElementById("taxExempt").classList.toggle('active', t === "免稅");
-    renderCart();
-}
-
-  // 頁面載入時預設免稅
-window.addEventListener("DOMContentLoaded", () => {
-    setTax("免稅");
 });
 
+/* ---------- 數量 ---------- */
+function changeQty(idName, delta){
 
-function formatDiscountRate(rate) {
-    let d = rate * 100;          // 0.9 → 90
-    let s = d.toString();        // "90"
+  const span =
+    document.getElementById(`qty-${idName}`);
 
-    // 90 → 9, 80 → 8, 70 → 7...
-    if (d % 10 === 0) {
-        s = (d / 10).toString();
-    }
-    return s + "折";
-}
-  
-  
-function calcDiscountedSubtotal(item) {
-    let sub = item.quantity * item.price;
-    if (item.discount) {
-        switch (item.discount.type) {
-            case "第二件減10":
-                sub -= Math.floor(item.quantity / 2) * 10;
-                break;
-            case "買二送一":
-                sub -= Math.floor(item.quantity / 3) * item.price;
-                break;
-            case "買一送一":
-                sub -= Math.floor(item.quantity / 2) * item.price;
-                break;
-            case "第二件6折":
-                sub -= Math.floor(item.quantity / 2) * item.price * 0.4;
-                break;
-            case "折扣":      // 例如 95折、9折
-                sub *= item.discount.rate;
-                break;
-        }
-    }
-    return Math.round(sub);
+  let qty=parseInt(span.textContent);
+
+  qty += delta;
+
+  if(qty<1) qty=1;
+
+  span.textContent=qty;
+
+  const name = decodeURIComponent(idName);
+
+  const existIndex =
+    cart.findIndex(c=>c.name===name);
+
+  if(existIndex !== -1){
+
+    cart[existIndex].quantity = qty;
+
+    updateCartBar();
+  }
 }
 
- async function sendCheckoutToSheet() {
+/* ---------- 加購物車 ---------- */
+function addToCartWithAnimation(idName, btn){
 
-    if (window.__sending) return;
-    window.__sending = true;
+  const name =
+    decodeURIComponent(idName);
 
-    const now = new Date();
-
-    function formatDate(d) {
-        return d.getFullYear() + "/" +
-            String(d.getMonth() + 1).padStart(2, "0") + "/" +
-            String(d.getDate()).padStart(2, "0");
-    }
-
-    function formatTime(d) {
-        return String(d.getHours()).padStart(2, "0") + ":" +
-            String(d.getMinutes()).padStart(2, "0") + ":" +
-            String(d.getSeconds()).padStart(2, "0");
-    }
-
-    const payload = {
-        orderDate: formatDate(now),
-        orderTime: formatTime(now),
-        checkoutDateTime: formatDate(now) + " " + formatTime(now),
-
-        storeName: document.getElementById("storeInfo").innerText.split("（")[0],
-        storeCode: POS_STORE,
-
-        taxStatus: currentTax,
-        totalAmount: roundMoney(parseNumber(document.getElementById("posTotal").innerText)),
-        taxAmount: roundMoney(parseNumber(document.getElementById("taxAmount").innerText)),
-        paymentMethod: document.getElementById("posPayment").value,
-        discount: Number(document.getElementById("discount").value) || 0,
-        cashReceive: roundMoney(Number(document.getElementById("cashInput").value) || 0),
-        change: roundMoney(parseNumber(document.getElementById("changeOut").innerText)),
-
-        items: posCart.map(it => {
-            const originalSubtotal = it.price * it.quantity;
-            const discountedSubtotal = calcDiscountedSubtotal(it);
-
-            const promoDiscount = Math.abs(originalSubtotal - discountedSubtotal);
-
-            let promoText = "";
-            if (it.discount) {
-                promoText = it.discount.type === "折扣"
-                    ? formatDiscountRate(it.discount.rate)
-                    : it.discount.type;
-            }
-
-            return {
-                category: products.find(p => p["商品名稱"] === it.name)?.["類別"] || "",
-                name: it.name,
-                quantity: it.quantity,
-                price: it.price,
-                subtotal: discountedSubtotal,
-                promo: promoText,
-                promoDiscount: promoDiscount
-            };
-        })
-    };
-
-    try {
-        const res = await fetch(API_URL + "?action=checkout", {
-            method: "POST",
-            body: JSON.stringify(payload)
-        });
-
-        const result = await res.json();
-
-        if (result.status !== "success") {
-            throw new Error(result.message || "寫入失敗");
-        }
-
-        return result;
-
-    } catch (err) {
-        alert("結帳失敗：" + err.message);
-        throw err;
-
-    } finally {
-        window.__sending = false;
-    }
-}
-
-  
-// ===== 結帳流程：先結帳 → 再列印 =====
-document.getElementById("posCheckout").onclick = async function () {
-
-    const checkoutBtn = document.getElementById("posCheckout");
-
-    if (posCart.length === 0) {
-        alert("購物車是空的。");
-        return;
-    }
-
-    // STEP 0：按鈕顯示運作中，禁用按鈕
-    checkoutBtn.disabled = true;
-    const originalText = checkoutBtn.innerText;
-    checkoutBtn.innerText = "結帳中...";
-    checkoutBtn.style.backgroundColor = "#ccc";
-
-    try {
-        // STEP 1：先結帳（寫入 Google Sheet）
-        await sendCheckoutToSheet();
-        updateTodaySales();
-
-        // ===== 小票工具函式 =====
-        function getMaxLength() {
-            let maxNameLen = 0, maxQtyLen = 0, maxPriceLen = 0, maxSubtotalLen = 0;
-            posCart.forEach(item => {
-                maxNameLen = Math.max(maxNameLen, item.name.length);
-                maxQtyLen = Math.max(maxQtyLen, item.quantity.toFixed(2).length);
-                maxPriceLen = Math.max(maxPriceLen, item.price.toFixed(0).length);
-
-                let sub = calcDiscountedSubtotal(item);
-                maxSubtotalLen = Math.max(maxSubtotalLen, sub.toFixed(0).length);
-            });
-            return { maxNameLen, maxQtyLen, maxPriceLen, maxSubtotalLen };
-        }
-
-        function padLeft(str, len) {
-            str = String(str);
-            return ' '.repeat(len - str.length) + str;
-        }
-
-        function padRight(str, len) {
-            str = String(str);
-            return str + ' '.repeat(len - str.length);
-        }
-
-        // ===== 單一商品列格式 =====
-        function formatProductLine(item, maxNameLen, maxQtyLen, maxPriceLen, maxSubtotalLen) {
-
-            const originalSubtotal = item.price * item.quantity;
-            const sub = calcDiscountedSubtotal(item);
-            const discountAmount = sub - originalSubtotal; // 負數
-
-            let promoText = "";
-            if (item.discount && discountAmount < 0) {
-                let promoName = item.discount.type === "折扣"
-                    ? formatDiscountRate(item.discount.rate)
-                    : item.discount.type;
-
-                promoText = `${promoName} ${discountAmount}`;
-            }
-
-            let lines = [];
-            const chunk = 12;
-
-            for (let i = 0; i < item.name.length; i += chunk) {
-                const part = item.name.slice(i, i + chunk);
-
-                if (i === 0) {
-                    lines.push(
-                        padRight(part, maxNameLen) + " " +
-                        padLeft(item.quantity.toFixed(2), maxQtyLen) + " " +
-                        padLeft(item.price, maxPriceLen) + " " +
-                        padLeft(sub, maxSubtotalLen)
-                    );
-                } else {
-                    lines.push("  " + part);
-                }
-            }
-
-            // 👉 優惠列（含折扣金額）
-            if (promoText) {
-                lines.push("  優惠: " + promoText);
-            }
-
-            return lines.join("\n");
-        }
-
-        // ===== 組整張小票 =====
-        function formatReceipt() {
-            const { maxNameLen, maxQtyLen, maxPriceLen, maxSubtotalLen } = getMaxLength();
-
-            let content = "===== 生鮮 POS 小票 =====\n";
-
-            content += padRight("商品", maxNameLen) + " " +
-                       padRight("數量", maxQtyLen) + " " +
-                       padRight("單價", maxPriceLen) + " " +
-                       padRight("小計", maxSubtotalLen) + "\n";
-
-            content += "-".repeat(maxNameLen + maxQtyLen + maxPriceLen + maxSubtotalLen + 3) + "\n";
-
-            posCart.forEach(item => {
-                content += formatProductLine(
-                    item,
-                    maxNameLen,
-                    maxQtyLen,
-                    maxPriceLen,
-                    maxSubtotalLen
-                ) + "\n";
-            });
-
-            content += "-".repeat(maxNameLen + maxQtyLen + maxPriceLen + maxSubtotalLen + 3) + "\n";
-
-            content += "折扣總額: " + document.getElementById("discount").value + " 元\n";
-            content += "稅金: " + document.getElementById("taxAmount").innerText + " 元\n";
-            content += "總額: " + document.getElementById("posTotal").innerText + " 元\n";
-            content += "付款方式: " + document.getElementById("posPayment").value + "\n";
-
-            if (document.getElementById("posPayment").value === "現金") {
-                content += "現金收入: " + document.getElementById("cashInput").value + " 元\n";
-                content += "找零: " + document.getElementById("changeOut").innerText + " 元\n";
-            }
-
-            content += "===== 感謝光臨 =====\n";
-            return content;
-        }
-
-        // STEP 3：列印
-        if (ENABLE_PRINT) {
-
-    const receiptContent = formatReceipt();
-    const printWindow = window.open('', '', 'width=300,height=600');
-
-    printWindow.document.write(
-        `<pre style="font-family:monospace;font-size:12px;line-height:1.2;">${receiptContent}</pre>`
+  const qty =
+    parseInt(
+      document.getElementById(`qty-${idName}`)
+      .textContent
     );
 
-    printWindow.document.write('<script>window.onload=function(){window.print();};<\/script>');
-    printWindow.document.close();
+  const product =
+    products.find(p=>p['商品名稱']===name);
 
-}
+  const existIndex =
+    cart.findIndex(c=>c.name===name);
 
-        // STEP 4：清空購物車
-        posCart = [];
-        document.getElementById("discount").value = "0";
-        document.getElementById("cashInput").value = "";
-        document.getElementById("changeOut").textContent = "0";
-        renderCart();
+  if(btn.classList.contains("active")){
 
-    } catch (err) {
-        console.error(err);
-        alert("結帳發生錯誤，請稍後再試");
-    } finally {
-        // STEP 5：恢復按鈕狀態
-        checkoutBtn.disabled = false;
-        checkoutBtn.innerText = originalText;
-        checkoutBtn.style.backgroundColor = "";
-    }
-};
-document.getElementById("orderQueryBtn").onclick = async function () {
-    await loadTodayOrders();
-    document.getElementById("orderModal").style.display = "flex";
-};
-async function loadTodayOrders() {
-    const res = await fetch(`${API_URL}?action=listOrders&storeCode=${POS_STORE}`);
-    const data = await res.json();
-
-    if (data.status !== "success") {
-        alert("查詢失敗");
-        return;
+    if(existIndex !== -1){
+      cart.splice(existIndex,1);
     }
 
-    orderList = data.data;
-    renderOrderList();
+    btn.classList.remove("active");
+    btn.textContent="加入";
+
+  }else{
+
+    if(existIndex !== -1){
+
+      cart[existIndex].quantity += qty;
+
+    }else{
+
+      cart.push({
+        name,
+        price:parseInt(product['售價']),
+        quantity:qty,
+        category:product['類別']
+      });
+
+    }
+
+    btn.classList.add("active");
+    btn.textContent="已加入";
+  }
+
+  updateCartBar();
 }
-function renderOrderList() {
-    const box = document.getElementById("orderListBox");
-    box.innerHTML = "";
 
-    orderList.forEach(order => {
-        const row = document.createElement("div");
-        row.className = "order-row";
+/* ---------- 購物車 ---------- */
+function updateCartBar(){
 
-        const isVoid = order.status === "VOID";
+  const cartBar =
+    document.getElementById("cartBar");
 
-        row.innerHTML = `
-            <div>
-                <b>${order.orderId}</b><br>
-                ${order.payment} / ${order.totalAmount} 元
-                ${isVoid ? "<span style='color:red'>（已作廢）</span>" : ""}
-            </div>
+  if(cart.length===0){
 
-            <div style="display:flex;gap:8px;">
-                ${!isVoid ? `
-                    <button onclick="voidOrder(${order.rowIndex})">作廢</button>
-                ` : ""}
+    cartBar.style.display="none";
 
-                </div>
-        `;
+    return;
+  }
 
-        box.appendChild(row);
-    });
+  const totalAmt =
+    cart.reduce(
+      (sum,i)=>sum+i.quantity*i.price,
+      0
+    );
+
+  document.getElementById("cartInfo")
+  .innerHTML=
+  `訂單小計：<span>${totalAmt} 元</span>`;
+
+  cartBar.style.display="flex";
 }
-async function voidOrder(rowIndex) {
-    if (!confirm("確定要作廢此訂單？")) return;
 
-    await fetch(`${API_URL}?action=voidOrder`, {
-        method: "POST",
-        body: JSON.stringify({ rowIndex })
-    });
+/* ---------- Modal ---------- */
+const cartModal =
+  document.getElementById("cartModal");
 
-    await loadTodayOrders();
-    updateTodaySales();
-}    
-async function restoreOrder(rowIndex) {
-    if (!confirm("確定要還原此訂單？")) return;
+document.getElementById("viewCartBtn").onclick=()=>{
 
-    await fetch(`${API_URL}?action=restoreOrder`, {
-        method: "POST",
-        body: JSON.stringify({ rowIndex })
-    });
+  renderCart();
 
-    await loadTodayOrders();
-    updateTodaySales();
+  cartModal.style.display="flex";
 }
-document.addEventListener("fullscreenchange", () => {
-  if (!document.fullscreenElement) {
-    // 只有登入狀態才自動回全螢幕
-    if (POS_STORE) {
-      setTimeout(() => {
-        enterFullscreen();
-      }, 300);
+
+document.getElementById("cartClose").onclick=()=>{
+
+  cartModal.style.display="none";
+}
+
+/* ---------- render cart ---------- */
+function renderCart(){
+
+  const container =
+    document.getElementById("cartItems");
+
+  container.innerHTML="";
+
+  let total=0;
+
+  cart.forEach(item=>{
+
+    const subtotal =
+      item.price*item.quantity;
+
+    total += subtotal;
+
+    const div=document.createElement("div");
+
+    div.innerHTML=`
+      ${item.name}<br>
+      ${item.quantity} x ${item.price}
+      = <b style="color:#ee4d2d;">
+      ${subtotal} 元
+      </b>
+    `;
+
+    container.appendChild(div);
+
+  });
+
+  document.getElementById("cartTotal")
+  .textContent=total;
+}
+
+/* ---------- 使用者 ---------- */
+async function fetchUserData(){
+
+  if(!userId) return;
+
+  const res =
+    await fetch(
+      API_URL+
+      "?action=getUser&userId="+userId
+    );
+
+  const result = await res.json();
+
+  if(result.user){
+
+    document.getElementById("receiverName").value =
+      result.user.name || "";
+
+    document.getElementById("receiverPhone").value =
+      result.user.phone || "";
+
+    document.getElementById("receiverAddress").value =
+      result.user.address || "";
+  }
+}
+
+/* ---------- 取貨 ---------- */
+document.getElementById("deliveryMethod")
+.onchange=function(){
+
+  const val=this.value;
+
+  if(val==="自取"){
+
+    document.getElementById("selfPickup")
+    .style.display="block";
+
+    document.getElementById("deliveryForm")
+    .style.display="none";
+
+  }else if(val==="外送"){
+
+    document.getElementById("selfPickup")
+    .style.display="none";
+
+    document.getElementById("deliveryForm")
+    .style.display="block";
+
+    fetchUserData();
+
+  }else{
+
+    document.getElementById("selfPickup")
+    .style.display="none";
+
+    document.getElementById("deliveryForm")
+    .style.display="none";
+  }
+}
+
+/* ---------- 結帳 ---------- */
+document.getElementById("checkoutBtn")
+.onclick=async function(){
+
+  if(cart.length===0){
+
+    alert("購物車是空的");
+
+    return;
+  }
+
+  const totalAmount =
+    cart.reduce(
+      (sum,i)=>sum+i.price*i.quantity,
+      0
+    );
+
+  const deliveryMethod =
+    document.getElementById("deliveryMethod")
+    .value;
+
+  if(!deliveryMethod){
+
+    alert("請選擇取貨方式");
+
+    return;
+  }
+
+  let shippingFee=0,
+      receiverName="",
+      receiverPhone="",
+      receiverAddress="",
+      pickupStore="";
+
+  if(deliveryMethod==="外送"){
+
+    if(totalAmount<1500){
+
+      alert("外送金額需達1500元以上");
+
+      return;
+    }
+
+    receiverName =
+      document.getElementById("receiverName").value;
+
+    receiverPhone =
+      document.getElementById("receiverPhone").value;
+
+    receiverAddress =
+      document.getElementById("receiverAddress").value;
+
+    if(
+      !receiverName ||
+      !receiverPhone ||
+      !receiverAddress
+    ){
+
+      alert("請完整填寫收件資訊");
+
+      return;
+    }
+
+  }else{
+
+    pickupStore =
+      document.getElementById("pickupStore").value;
+
+    if(!pickupStore){
+
+      alert("請選擇取貨門市");
+
+      return;
     }
   }
-});
-window.addEventListener("afterprint", () => {
-  setTimeout(() => {
-    const success = document.fullscreenElement;
-    if (!success) {
-      console.log("fullscreen 被阻擋");
-    } else {
-      enterFullscreen();
+
+  const paymentMethod =
+    document.getElementById("paymentMethod")
+    .value;
+
+  const data={
+    userId,
+    userName,
+    totalAmount,
+    shippingFee,
+    paymentMethod,
+    deliveryMethod,
+    receiverName,
+    receiverPhone,
+    receiverAddress,
+    pickupStore,
+    items:cart
+  };
+
+  const resOrder =
+    await fetch(API_URL,{
+      method:'POST',
+      body:JSON.stringify(data)
+    });
+
+  const resultOrder =
+    await resOrder.json();
+
+  alert("訂單完成，單號："+resultOrder.orderId);
+
+  cart=[];
+
+  updateCartBar();
+
+  cartModal.style.display="none";
+
+  products.forEach(p=>{
+
+    const idName =
+      encodeURIComponent(p['商品名稱']);
+
+    const span =
+      document.getElementById(`qty-${idName}`);
+
+    if(span){
+      span.textContent="1";
     }
-  }, 300);
-});
+  });
 
+  if(resultOrder.flexMsg){
 
+    try{
+
+      await liff.sendMessages([{
+        type:"flex",
+        altText:"訂單完成 🛒",
+        contents:resultOrder.flexMsg
+      }]);
+
+    }catch(err){
+
+      console.error(err);
+    }
+  }
+}
+
+initLIFF().then(fetchProducts);
 </script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
 
