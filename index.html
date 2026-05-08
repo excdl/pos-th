@@ -337,6 +337,50 @@ select,input{
   }
 
 }
+  /* ===== Cart Item ===== */
+.cart-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+}
+
+.cart-left{
+  flex:1;
+}
+
+.cart-name{
+  font-weight:bold;
+  margin-bottom:4px;
+}
+
+.cart-price{
+  color:#ee4d2d;
+  font-size:.9em;
+}
+
+.cart-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.cart-actions button{
+  width:28px;
+  height:28px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  background:#f1f1f1;
+  font-size:1em;
+}
+
+.remove-btn{
+  background:#ff4d4f !important;
+  color:white;
+}
 
 </style>
 
@@ -766,28 +810,59 @@ document.getElementById("cartClose").onclick=()=>{
 /* ===== render cart ===== */
 function renderCart(){
 
-  const container=
+  const container =
     document.getElementById("cartItems");
 
   container.innerHTML="";
 
-  let total=0;
+  let total = 0;
 
-  cart.forEach(item=>{
+  cart.forEach((item,index)=>{
 
-    const subtotal=
-      item.quantity*item.price;
+    const subtotal =
+      item.price * item.quantity;
 
-    total+=subtotal;
+    total += subtotal;
 
-    const div=document.createElement("div");
+    const div =
+      document.createElement("div");
 
-    div.innerHTML=`
-      ${item.name}<br>
-      ${item.quantity} x ${item.price}
-      = <b style="color:#ee4d2d;">
-      ${subtotal} 元
-      </b>
+    div.className = "cart-row";
+
+    div.innerHTML = `
+
+      <div class="cart-left">
+
+        <div class="cart-name">
+          ${item.name}
+        </div>
+
+        <div class="cart-price">
+          $${item.price} x ${item.quantity}
+          = $${subtotal}
+        </div>
+
+      </div>
+
+      <div class="cart-actions">
+
+        <button onclick="changeCartQty(${index},-1)">
+          -
+        </button>
+
+        <span>${item.quantity}</span>
+
+        <button onclick="changeCartQty(${index},1)">
+          +
+        </button>
+
+        <button
+          class="remove-btn"
+          onclick="removeCartItem(${index})">
+          ✕
+        </button>
+
+      </div>
     `;
 
     container.appendChild(div);
@@ -795,7 +870,33 @@ function renderCart(){
   });
 
   document.getElementById("cartTotal")
-  .textContent=total;
+  .textContent = total;
+}
+
+/* ===== 修改購物車數量 ===== */
+function changeCartQty(index,delta){
+
+  cart[index].quantity += delta;
+
+  if(cart[index].quantity <= 0){
+
+    cart.splice(index,1);
+
+  }
+
+  renderCart();
+
+  updateCartBar();
+}
+
+/* ===== 刪除商品 ===== */
+function removeCartItem(index){
+
+  cart.splice(index,1);
+
+  renderCart();
+
+  updateCartBar();
 }
 
 /* ===== 使用者資料 ===== */
