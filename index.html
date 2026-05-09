@@ -397,17 +397,47 @@ select,input{
   width:100%;
 }
 
-select,input{
-#paymentMethod,
-#deliveryMethod{
-  height:50px;
-  font-size:1.05em;
+select,
+input{
+
   padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+
+  font-size:16px;
+
+  min-height:50px;
+
 }
-  #paymentMethod,
-#deliveryMethod{
-  width:125%;
-  max-width:100%;
+
+/* ===== 結帳下拉框放大 ===== */
+#paymentMethod,
+#deliveryMethod,
+#pickupStore{
+
+  width:100%;
+
+  min-height:56px;
+
+  padding:12px 16px;
+
+  font-size:16px;
+
+  border-radius:10px;
+
+  cursor:pointer;
+
+}
+
+/* ===== 點擊區域放大 ===== */
+#paymentMethod option,
+#deliveryMethod option,
+#pickupStore option{
+
+  font-size:16px;
+
+  padding:12px;
+
 }
 
 </style>
