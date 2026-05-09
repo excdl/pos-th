@@ -443,6 +443,23 @@ input{
   display:grid;
   grid-template-columns:auto 1fr auto;
   align-items:center;
+  gap:.8em;
+}
+
+.search-bar{
+  min-width:0;
+  background:#f1f1f1;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.search-bar input{
+  width:100%;
+  border:none;
+  background:none;
+  outline:none;
+  padding:.8em 1em;
+  font-size:16px;
 }
 
 
@@ -468,9 +485,11 @@ input{
     </div>
 
     <div class="search-bar">
-      <input type="text" placeholder="搜尋商品..." id="searchInput">
-      <button>🔍</button>
-    </div>
+  <input
+    type="text"
+    placeholder="搜尋商品..."
+    id="searchInput">
+</div>
 
     <div class="header-cart" id="openCartTop">
       🛒
