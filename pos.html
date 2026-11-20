@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>鮮選團購 · 門市自動出單工作台 (獨立版)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --brand: #ee4d2d;
+    --brand-dark: #d73211;
+    --brand-soft: #fff5f2;
+    --bg: #f7f7f5;
+    --card: #ffffff;
+    --text: #18181b;
+    --muted: #52525b;
+    --border: #e4e4e7;
+    --ok: #15803d;
+    --ok-bg: #f0fdf4;
+    --err: #b91c1c;
+    --err-bg: #fef2f2;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .mono {
+    font-family: "JetBrains Mono", "Noto Sans TC", monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--brand);
+    white-space: nowrap;
+  }
+  nav {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+  }
+  .nav-btn {
+    border: none;
+    background: none;
+    padding: 8px 2px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .nav-btn.active {
+    color: var(--text);
+    border-bottom-color: var(--brand);
+  }
+  .status-pill {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 16px 80px;
+  }
+  .top-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .top-bar h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 900;
+  }
+  .top-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .btn {
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .btn:hover { background: #fafafa; }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .btn-primary {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--brand-dark); }
+  .btn-dark {
+    background: #18181b;
+    border-color: #18181b;
+    color: #fff;
+  }
+  .btn-dark:hover { background: #27272a; }
+  .btn-listen-on {
+    background: var(--ok-bg);
+    border-color: #16a34a;
+    color: var(--ok);
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (min-width: 920px) {
+    .grid-2 { grid-template-columns: 1.35fr 1fr; }
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+  }
+  .card h2 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 800;
+  }
+  .orders-list {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .orders-head {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .order-item {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f4f4f5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .order-item:last-child { border-bottom: none; }
+  .order-item:hover { background: #fafafa; }
+  .order-item.selected { background: var(--brand-soft); }
+  .ticket-num { font-size: 16px; font-weight: 900; }
+  .order-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .amt { font-size: 16px; font-weight: 900; color: var(--brand); }
+  .state-ok { color: var(--ok); font-weight: 700; font-size: 12px; }
+  .state-wait { color: #b45309; font-weight: 700; font-size: 12px; }
+  .state-err { color: var(--err); font-weight: 700; font-size: 12px; }
+
+  /* Thermal Paper Preview */
+  .paper-stage {
+    background: #f4f4f5;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .receipt-wrap {
+    width: 100%;
+    max-width: 280px;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.08));
+  }
+  .receipt-wrap.w80 { max-width: 360px; }
+  .edge-top {
+    height: 10px;
+    background-image: linear-gradient(135deg, #fff 50%, transparent 50%),
+      linear-gradient(225deg, #fff 50%, transparent 50%);
+    background-size: 10px 10px;
+    background-repeat: repeat-x;
+  }
+  .edge-bottom {
+    height: 10px;
+    background-image: linear-gradient(315deg, #fff 50%, transparent 50%),
+      linear-gradient(45deg, #fff 50%, transparent 50%);
+    background-size: 10px 10px;
+    background-repeat: repeat-x;
+  }
+  .receipt-paper {
+    background: #fff;
+    color: #000;
+    padding: 12px 14px;
+    font-family: "JetBrains Mono", "Noto Sans TC", monospace;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+  .r-title { text-align: center; font-size: 18px; font-weight: 900; }
+  .r-center { text-align: center; font-size: 11.5px; color: #3f3f46; }
+  .r-ticket {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 900;
+    padding: 4px 0;
+    margin: 6px 0;
+    border-top: 1px dashed #71717a;
+    border-bottom: 1px dashed #71717a;
+  }
+  .r-ddiv { border-top: 2px solid #000; border-bottom: 1px solid #000; height: 4px; margin: 7px 0; }
+  .r-div { border-top: 1px dashed #71717a; margin: 6px 0; }
+  .r-row { display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
+  .r-bold { font-weight: 700; margin-top: 2px; word-break: break-word; }
+  .r-total { display: flex; justify-content: space-between; font-size: 16px; font-weight: 900; padding-top: 4px; }
+
+  /* Form controls */
+  .transport-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .t-card {
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    background: #fff;
+    text-align: left;
+    cursor: pointer;
+  }
+  .t-card.active {
+    border-color: var(--brand);
+    background: var(--brand-soft);
+  }
+  .t-title { font-weight: 800; font-size: 14px; }
+  .t-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .field-label { display: block; margin-bottom: 12px; }
+  .field-label span { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+  .input {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 9px;
+    border: 1px solid #d4d4d8;
+    font-size: 14px;
+    background: #fff;
+  }
+  .input:focus { outline: none; border-color: var(--brand); }
+  .seg-group { display: flex; gap: 8px; }
+  .seg-btn {
+    flex: 1;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .seg-btn.active {
+    border-color: var(--brand);
+    background: var(--brand-soft);
+    color: var(--brand);
+  }
+  .notice {
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 12.5px;
+    margin-top: 10px;
+  }
+  .notice-ok { background: var(--ok-bg); border: 1px solid #86efac; color: var(--ok); }
+  .notice-warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+  .notice-err { background: var(--err-bg); border: 1px solid #fecaca; color: var(--err); }
+  .toast {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-14px);
+    background: #18181b;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s;
+    z-index: 999;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .hidden { display: none !important; }
+
+  @media print {
+    @page { margin: 0; size: auto; }
+    body * { visibility: hidden !important; }
+    #printMount, #printMount * { visibility: visible !important; }
+    #printMount {
+      display: block !important;
+      position: fixed !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      max-width: 80mm !important;
+      padding: 4mm 3mm !important;
+      background: #fff !important;
+      color: #000 !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">鮮選團購 · 櫃台出單</div>
+    <nav>
+      <button type="button" class="nav-btn active" data-tab="station">出單工作台</button>
+      <button type="button" class="nav-btn" data-tab="setup">印表機與試算表設定</button>
+    </nav>
+    <div id="headerPrinterStatus" class="status-pill">系統列印</div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- TAB 1: Station -->
+  <section id="tabStation">
+    <div class="top-bar">
+      <div>
+        <h1>櫃台自動出單工作台</h1>
+        <div class="top-sub" id="stationSummary">連線至 Google 試算表 · 準備就緒</div>
+      </div>
+      <div class="btn-row">
+        <button type="button" id="toggleListenBtn" class="btn btn-listen-on">自動接單監聽：開啟中</button>
+        <button type="button" id="unlockAudioBtn" class="btn">試聽提示音</button>
+        <button type="button" id="pollNowBtn" class="btn">立即檢查新單</button>
+        <button type="button" id="testPrintBtn" class="btn btn-primary">列印測試單據</button>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="orders-list">
+        <div class="orders-head">
+          <strong style="font-size:14px;">近期與待印訂單</strong>
+          <span class="mono" style="font-size:12px;color:var(--muted);" id="lastSyncText">尚未同步</span>
+        </div>
+        <div id="ordersContainer">
+          <div style="padding:40px;text-align:center;color:var(--muted);">正在讀取 Google 試算表訂單...</div>
+        </div>
+      </div>
+
+      <div class="paper-stage">
+        <div class="seg-group" style="width:100%;">
+          <button type="button" class="seg-btn active" data-copy="customer">顧客收執聯</button>
+          <button type="button" class="seg-btn" data-copy="kitchen">廚房 / 撿貨聯</button>
+        </div>
+        <div id="previewMount" class="receipt-wrap"></div>
+        <button type="button" id="reprintSelectedBtn" class="btn btn-primary" style="width:100%;justify-content:center;">
+          立即列印此單據
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: Setup -->
+  <section id="tabSetup" class="hidden">
+    <div class="top-bar">
+      <div>
+        <h1>印表機與 Google 試算表設定</h1>
+        <div class="top-sub">支援藍牙、USB、Wi-Fi 熱感印表機，資料永久儲存在您的 Google 試算表。</div>
+      </div>
+      <button type="button" id="setupTestPrintBtn" class="btn btn-primary">列印測試單據</button>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>01. 選擇印表機連線方式</h2>
+        <div class="transport-grid" id="transportGrid">
+          <button type="button" class="t-card" data-transport="bluetooth">
+            <div class="t-title">藍牙熱感印表機 (BLE)</div>
+            <div class="t-desc">Android 平板 / 電腦 Chrome 免驅動直連</div>
+          </button>
+          <button type="button" class="t-card" data-transport="usb_serial">
+            <div class="t-title">USB 直連 (Web Serial)</div>
+            <div class="t-desc">電腦 Chrome 直接連接 USB 熱感機</div>
+          </button>
+          <button type="button" class="t-card" data-transport="browser_print">
+            <div class="t-title">系統印表機 (USB / Wi-Fi 驅動)</div>
+            <div class="t-desc">使用電腦已安裝的 USB 或 Wi-Fi 印表機</div>
+          </button>
+          <button type="button" class="t-card" data-transport="wifi_bridge">
+            <div class="t-title">Wi-Fi 區網橋接 (TCP 9100)</div>
+            <div class="t-desc">搭配本機小橋接傳送指令至網路印表機</div>
+          </button>
+        </div>
+
+        <div id="panelBluetooth" class="hidden">
+          <button type="button" id="pairBleBtn" class="btn btn-dark">掃描並配對藍牙印表機</button>
+          <div id="bleInfoBox" class="notice notice-warn">尚未配對藍牙裝置（請使用 Chrome 開啟並開啟印表機電源）</div>
+        </div>
+
+        <div id="panelUsbSerial" class="hidden">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button type="button" id="pairUsbBtn" class="btn btn-dark">選擇 USB 印表機連接埠</button>
+            <select id="usbBaudInput" class="input" style="width:140px;">
+              <option value="9600">9600 bps</option>
+              <option value="19200">19200 bps</option>
+              <option value="38400">38400 bps</option>
+              <option value="115200" selected>115200 bps</option>
+            </select>
+          </div>
+          <div id="usbInfoBox" class="notice notice-warn">尚未連接 USB 序列埠（若為一般 Windows 驅動印表機，可選「系統印表機」）</div>
+        </div>
+
+        <div id="panelBrowserPrint" class="hidden">
+          <div class="notice notice-ok">
+            只要您的電腦已安裝好 USB 或 Wi-Fi 熱感印表機驅動，即可直接列印 58mm / 80mm 單據。若要完全自動免按確認，可在 Chrome 捷徑加上 <code>--kiosk-printing</code> 參數。
+          </div>
+        </div>
+
+        <div id="panelWifiBridge" class="hidden">
+          <label class="field-label">
+            <span>店內電腦橋接網址</span>
+            <input type="url" id="bridgeUrlInput" class="input mono" placeholder="http://localhost:9191/print" />
+          </label>
+          <div class="notice notice-warn">
+            適用純 Wi-Fi IP (Port 9100) 且未安裝電腦驅動的機種，需於店內電腦執行 <code>node print-bridge.mjs</code>。
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--border);margin:20px 0;" />
+
+        <h2>02. 單據與熱感應紙設定</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px;">紙張寬度</div>
+            <div class="seg-group">
+              <button type="button" class="seg-btn" data-width="58">58mm</button>
+              <button type="button" class="seg-btn" data-width="80">80mm</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px;">自動出單聯別</div>
+            <select id="copyModeInput" class="input">
+              <option value="both">雙聯 (顧客 + 廚房)</option>
+              <option value="customer">僅顧客收執聯</option>
+              <option value="kitchen">僅廚房撿貨聯</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <label class="field-label">
+            <span>單據抬頭店名</span>
+            <input type="text" id="storeNameInput" class="input" />
+          </label>
+          <label class="field-label">
+            <span>底部備註</span>
+            <input type="text" id="footerNoteInput" class="input" />
+          </label>
+        </div>
+
+        <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:4px;">
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;cursor:pointer;">
+            <input type="checkbox" id="autoCutInput" /> 自動切紙 (GS V)
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;cursor:pointer;">
+            <input type="checkbox" id="buzzerInput" /> 出單蜂鳴提示
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>03. Google Apps Script 連線網址</h2>
+        <label class="field-label">
+          <span>GAS 部署 /exec 網址</span>
+          <input type="url" id="gasUrlInput" class="input mono" />
+        </label>
+        <label class="field-label">
+          <span>自動輪詢間隔（秒）</span>
+          <input type="number" id="pollSecInput" class="input mono" min="3" max="60" />
+        </label>
+        <button type="button" id="saveConfigBtn" class="btn btn-dark" style="width:100%;justify-content:center;">
+          儲存設定並立即同步試算表
+        </button>
+        <div class="notice notice-ok" style="margin-top:14px;">
+          此頁面為純單一 HTML 檔案，可直接上傳到 GitHub Pages、Vercel、或直接用瀏覽器打開，<strong>永久免費、不需任何後端伺服器</strong>。
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="printMount" class="hidden"></div>
+
+<script>
+const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbxTaYjHjfrbFjATYovW7fXdm6GABAn6WsMJ2sOCRL1NRgnNtFeJKmIw72vrmssFhzxidA/exec";
+const CFG_KEY = "fresh_standalone_pos_cfg_v1";
+
+const DEFAULT_CFG = {
+  gasUrl: DEFAULT_GAS_URL,
+  transport: "browser_print", // bluetooth | usb_serial | browser_print | wifi_bridge
+  paperWidth: 58,
+  copyMode: "both",
+  storeName: "鮮選團購",
+  storeSubtitle: "生鮮嚴選 · 產地直送",
+  footerNote: "生鮮食材請於取貨後儘速冷藏保存",
+  autoCut: true,
+  buzzerBeep: true,
+  bridgeUrl: "http://localhost:9191/print",
+  usbBaud: 115200,
+  pollSec: 4,
+  listening: true
+};
+
+let cfg = loadCfg();
+let orders = [];
+let selectedOrderId = null;
+let previewCopy = "customer";
+let bleDevice = null;
+let bleChar = null;
+let usbPort = null;
+let isPolling = false;
+let audioCtx = null;
+
+function loadCfg() {
+  try {
+    const raw = localStorage.getItem(CFG_KEY);
+    return raw ? { ...DEFAULT_CFG, ...JSON.parse(raw) } : { ...DEFAULT_CFG };
+  } catch {
+    return { ...DEFAULT_CFG };
+  }
+}
+
+function saveCfg() {
+  try { localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); } catch {}
+  renderSetupUI();
+  renderHeaderStatus();
+}
+
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 2600);
+}
+
+function escapeHtml(s) {
+  return String(s ?? "").replace(/[&<>"']/g, m => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[m]));
+}
+
+function playChime() {
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!audioCtx) audioCtx = new Ctx();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    const now = audioCtx.currentTime;
+    [880, 1174.66].forEach((freq, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, now + i * 0.14);
+      gain.gain.setValueAtTime(0.001, now + i * 0.14);
+      gain.gain.exponentialRampToValueAtTime(0.2, now + i * 0.14 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.14 + 0.28);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now + i * 0.14);
+      osc.stop(now + i * 0.14 + 0.3);
+    });
+  } catch {}
+}
+
+/* ===== Receipt Rendering & ESC/POS Raster ===== */
+function buildReceiptHtml(order, copyType) {
+  const isKitchen = copyType === "kitchen";
+  const items = Array.isArray(order.items) ? order.items : [];
+  const totalQty = items.reduce((s, i) => s + Number(i.quantity || 1), 0);
+  const itemsHtml = items.map(it => {
+    const qty = Number(it.quantity || 1);
+    const price = Number(it.price || 0);
+    const sub = qty * price;
+    if (isKitchen) {
+      return `<div class="r-bold">${escapeHtml(it.name)}  x${qty}</div>`;
+    }
+    return `
+      <div class="r-bold">${escapeHtml(it.name)}</div>
+      <div class="r-row"><span>  $${price.toLocaleString()} × ${qty}</span><span>$${sub.toLocaleString()}</span></div>
+    `;
+  }).join("");
+
+  return `
+    <div class="edge-top"></div>
+    <div class="receipt-paper">
+      <div class="r-title">${escapeHtml(cfg.storeName || "鮮選團購")}</div>
+      <div class="r-center">${escapeHtml(cfg.storeSubtitle || "")}</div>
+      <div class="r-center">${isKitchen ? "【 廚房 / 撿貨聯 】" : "【 顧客收執聯 】"}</div>
+      <div class="r-ticket">#${escapeHtml(order.ticketNumber || String(order.orderId || "").slice(-3))}</div>
+      <div class="r-ddiv"></div>
+      <div class="r-row"><span>單號</span><span>${escapeHtml(order.orderId)}</span></div>
+      <div class="r-row"><span>時間</span><span>${escapeHtml(order.dateTime || "")}</span></div>
+      <div class="r-row"><span>取貨</span><span>${escapeHtml(order.deliveryMethod || "自取")}</span></div>
+      <div class="r-row"><span>付款</span><span>${escapeHtml(order.paymentMethod || "現金")}</span></div>
+      ${order.pickupStore ? `<div class="r-bold">門市：${escapeHtml(order.pickupStore)}</div>` : ""}
+      ${order.receiverName || order.receiverPhone ? `<div class="r-bold">收件：${escapeHtml(order.receiverName)} ${escapeHtml(order.receiverPhone)}</div>` : ""}
+      ${order.receiverAddress ? `<div>地址：${escapeHtml(order.receiverAddress)}</div>` : ""}
+      ${order.userName && !order.receiverName ? `<div>訂購人：${escapeHtml(order.userName)}</div>` : ""}
+      <div class="r-div"></div>
+      <div class="r-row"><span>品名</span><span>${isKitchen ? "數量" : "數量    小計"}</span></div>
+      <div class="r-div"></div>
+      ${itemsHtml}
+      <div class="r-ddiv"></div>
+      <div class="r-row"><span>總件數</span><span>${totalQty} 件</span></div>
+      ${!isKitchen ? `<div class="r-total"><span>合計金額</span><span>NT$${Number(order.totalAmount || 0).toLocaleString()}</span></div>` : ""}
+      <div class="r-div"></div>
+      ${!isKitchen && cfg.footerNote ? `<div class="r-center">${escapeHtml(cfg.footerNote)}</div>` : ""}
+      <div class="r-center">感謝您的訂購，歡迎再次光臨！</div>
+    </div>
+    <div class="edge-bottom"></div>
+  `;
+}
+
+function encodeRasterEscPos(order, copyType) {
+  const widthDots = Number(cfg.paperWidth) === 80 ? 576 : 384;
+  const padX = Number(cfg.paperWidth) === 80 ? 16 : 10;
+  const maxW = widthDots - padX * 2;
+  const scale = Number(cfg.paperWidth) === 80 ? 1.15 : 1.0;
+  const isKitchen = copyType === "kitchen";
+  const items = Array.isArray(order.items) ? order.items : [];
+  const totalQty = items.reduce((s, i) => s + Number(i.quantity || 1), 0);
+
+  const lines = [
+    { type: "title", text: cfg.storeName || "鮮選團購" },
+    { type: "center", text: cfg.storeSubtitle || "" },
+    { type: "center", text: isKitchen ? "【 廚房 / 撿貨聯 】" : "【 顧客收執聯 】" },
+    { type: "ticket", text: "#" + (order.ticketNumber || String(order.orderId).slice(-3)) },
+    { type: "ddiv" },
+    { type: "row", left: "單號", right: String(order.orderId) },
+    { type: "row", left: "時間", right: String(order.dateTime || "") },
+    { type: "row", left: "取貨方式", right: String(order.deliveryMethod || "自取") },
+    { type: "row", left: "付款方式", right: String(order.paymentMethod || "現金") }
+  ];
+  if (order.pickupStore) lines.push({ type: "bold", text: "取貨門市：" + order.pickupStore });
+  if (order.receiverName || order.receiverPhone) lines.push({ type: "bold", text: ("收件：" + (order.receiverName || "") + " " + (order.receiverPhone || "")).trim() });
+  if (order.receiverAddress) lines.push({ type: "text", text: "地址：" + order.receiverAddress });
+  else if (order.userName) lines.push({ type: "text", text: "訂購人：" + order.userName });
+  lines.push({ type: "div" });
+  lines.push({ type: "row", left: "品名", right: isKitchen ? "數量" : "數量    小計" });
+  lines.push({ type: "div" });
+  for (const it of items) {
+    const q = Number(it.quantity || 1), p = Number(it.price || 0);
+    if (isKitchen) lines.push({ type: "bold", text: `${it.name}  x${q}` });
+    else {
+      lines.push({ type: "bold", text: String(it.name) });
+      lines.push({ type: "row", left: `  $${p} × ${q}`, right: `$${(p * q).toLocaleString()}` });
+    }
+  }
+  lines.push({ type: "ddiv" });
+  lines.push({ type: "row", left: "商品總件數", right: `${totalQty} 件` });
+  if (!isKitchen) lines.push({ type: "total", left: "合計金額", right: `NT$${Number(order.totalAmount || 0).toLocaleString()}` });
+  lines.push({ type: "div" });
+  if (!isKitchen && cfg.footerNote) lines.push({ type: "center", text: cfg.footerNote });
+  lines.push({ type: "center", text: "感謝您的訂購，歡迎再次光臨！" });
+
+  const mc = document.createElement("canvas");
+  mc.width = widthDots;
+  const mctx = mc.getContext("2d");
+  const wrap = (ctx, txt) => {
+    const out = [];
+    let cur = "";
+    for (const ch of Array.from(String(txt || ""))) {
+      if (ctx.measureText(cur + ch).width > maxW && cur) { out.push(cur); cur = ch; }
+      else cur += ch;
+    }
+    if (cur) out.push(cur);
+    return out.length ? out : [""];
+  };
+
+  const fTitle = `900 ${Math.round(28 * scale)}px "Noto Sans TC", sans-serif`;
+  const fTicket = `900 ${Math.round(36 * scale)}px "JetBrains Mono", monospace`;
+  const fBold = `700 ${Math.round(20 * scale)}px "Noto Sans TC", sans-serif`;
+  const fTotal = `900 ${Math.round(24 * scale)}px "Noto Sans TC", sans-serif`;
+  const fReg = `500 ${Math.round(18 * scale)}px "Noto Sans TC", sans-serif`;
+  const fSm = `500 ${Math.round(16 * scale)}px "Noto Sans TC", sans-serif`;
+
+  const ops = [];
+  let y = 12;
+  for (const l of lines) {
+    if (l.type === "title") {
+      mctx.font = fTitle;
+      for (const w of wrap(mctx, l.text)) { ops.push({ k: "c", y, f: fTitle, t: w }); y += Math.round(36 * scale); }
+    } else if (l.type === "ticket") {
+      ops.push({ k: "c", y: y + 4, f: fTicket, t: l.text }); y += Math.round(48 * scale);
+    } else if (l.type === "center") {
+      if (!l.text) continue;
+      mctx.font = fSm;
+      for (const w of wrap(mctx, l.text)) { ops.push({ k: "c", y, f: fSm, t: w }); y += Math.round(24 * scale); }
+    } else if (l.type === "bold") {
+      mctx.font = fBold;
+      for (const w of wrap(mctx, l.text)) { ops.push({ k: "l", y, f: fBold, t: w }); y += Math.round(27 * scale); }
+    } else if (l.type === "text") {
+      mctx.font = fReg;
+      for (const w of wrap(mctx, l.text)) { ops.push({ k: "l", y, f: fReg, t: w }); y += Math.round(25 * scale); }
+    } else if (l.type === "row") {
+      ops.push({ k: "r", y, f: fReg, left: l.left, right: l.right }); y += Math.round(26 * scale);
+    } else if (l.type === "total") {
+      ops.push({ k: "r", y: y + 2, f: fTotal, left: l.left, right: l.right }); y += Math.round(36 * scale);
+    } else if (l.type === "div") {
+      ops.push({ k: "div", y: y + 5 }); y += 14;
+    } else if (l.type === "ddiv") {
+      ops.push({ k: "ddiv", y: y + 5 }); y += 16;
+    }
+  }
+  y += 18;
+  const h = Math.ceil(y / 8) * 8;
+  const c = document.createElement("canvas");
+  c.width = widthDots;
+  c.height = h;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, widthDots, h);
+  ctx.fillStyle = "#000";
+  ctx.textBaseline = "top";
+
+  for (const op of ops) {
+    if (op.f) ctx.font = op.f;
+    if (op.k === "c") { ctx.textAlign = "center"; ctx.fillText(op.t, widthDots / 2, op.y); }
+    else if (op.k === "l") { ctx.textAlign = "left"; ctx.fillText(op.t, padX, op.y); }
+    else if (op.k === "r") {
+      ctx.textAlign = "left"; ctx.fillText(op.left, padX, op.y);
+      ctx.textAlign = "right"; ctx.fillText(op.right, widthDots - padX, op.y);
+    } else if (op.k === "div") {
+      ctx.strokeStyle = "#000"; ctx.lineWidth = 1.5; ctx.setLineDash([6, 4]);
+      ctx.beginPath(); ctx.moveTo(padX, op.y); ctx.lineTo(widthDots - padX, op.y); ctx.stroke();
+      ctx.setLineDash([]);
+    } else if (op.k === "ddiv") {
+      ctx.fillRect(padX, op.y, maxW, 2); ctx.fillRect(padX, op.y + 4, maxW, 2);
+    }
+  }
+
+  const rgba = ctx.getImageData(0, 0, widthDots, h).data;
+  const bpr = widthDots / 8;
+  const raster = new Uint8Array(bpr * h);
+  for (let row = 0; row < h; row++) {
+    for (let xb = 0; xb < bpr; xb++) {
+      let bv = 0;
+      for (let b = 0; b < 8; b++) {
+        const i = (row * widthDots + xb * 8 + b) * 4;
+        if (0.299 * rgba[i] + 0.587 * rgba[i + 1] + 0.114 * rgba[i + 2] < 165) bv |= 1 << (7 - b);
+      }
+      raster[row * bpr + xb] = bv;
+    }
+  }
+
+  const head = [0x1b, 0x40];
+  if (cfg.buzzerBeep) head.push(0x1b, 0x42, 0x02, 0x02);
+  head.push(0x1d, 0x76, 0x30, 0x00, bpr & 0xff, (bpr >> 8) & 0xff, h & 0xff, (h >> 8) & 0xff);
+  const tail = [0x1b, 0x64, 0x03];
+  if (cfg.autoCut) tail.push(0x1d, 0x56, 0x42, 0x00);
+
+  const out = new Uint8Array(head.length + raster.length + tail.length);
+  out.set(head, 0);
+  out.set(raster, head.length);
+  out.set(tail, head.length + raster.length);
+  return out;
+}
+
+/* ===== Hardware Print Dispatchers ===== */
+const BLE_SERVICES = [
+  "000018f0-0000-1000-8000-00805f9b34fb",
+  "49535343-fe7d-4ae5-8fa9-9fafd205e455",
+  "e7810a71-73ae-499d-8c15-faa9aef0c3f2",
+  "6e400001-b5a3-f393-e0a9-e50e24dcca9e",
+  "0000ff00-0000-1000-8000-00805f9b34fb",
+  "0000ffe0-0000-1000-8000-00805f9b34fb"
+];
+
+async function pairBluetooth() {
+  if (!navigator.bluetooth) {
+    throw new Error("目前瀏覽器不支援 Web Bluetooth（請改用 Android / 電腦 Chrome）");
+  }
+  const dev = await navigator.bluetooth.requestDevice({
+    acceptAllDevices: true,
+    optionalServices: BLE_SERVICES
+  });
+  const server = await dev.gatt.connect();
+  const svcs = await server.getPrimaryServices();
+  let foundChar = null;
+  for (const s of svcs) {
+    try {
+      const chars = await s.getCharacteristics();
+      foundChar = chars.find(c => c.properties.writeWithoutResponse || c.properties.write);
+      if (foundChar) break;
+    } catch {}
+  }
+  if (!foundChar) throw new Error("找不到可寫入的藍牙列印服務");
+  bleDevice = dev;
+  bleChar = foundChar;
+  dev.addEventListener("gattserverdisconnected", () => {
+    bleChar = null;
+    renderSetupUI();
+    renderHeaderStatus();
+    showToast("藍牙印表機已斷線");
+  });
+  cfg.transport = "bluetooth";
+  saveCfg();
+  showToast("已配對藍牙印表機：" + (dev.name || "BLE 印表機"));
+}
+
+async function pairUsbSerial() {
+  if (!navigator.serial) {
+    throw new Error("目前瀏覽器不支援 Web Serial USB（請用電腦 Chrome，或改選系統印表機）");
+  }
+  const port = await navigator.serial.requestPort();
+  await port.open({ baudRate: Number(cfg.usbBaud) || 115200 });
+  usbPort = port;
+  cfg.transport = "usb_serial";
+  saveCfg();
+  showToast("已連接 USB 熱感印表機");
+}
+
+async function sendBytes(bytes) {
+  if (cfg.transport === "bluetooth") {
+    if (!bleDevice || !bleDevice.gatt) throw new Error("尚未配對藍牙印表機");
+    if (!bleDevice.gatt.connected || !bleChar) {
+      const server = await bleDevice.gatt.connect();
+      const svcs = await server.getPrimaryServices();
+      for (const s of svcs) {
+        try {
+          const chars = await s.getCharacteristics();
+          const hit = chars.find(c => c.properties.writeWithoutResponse || c.properties.write);
+          if (hit) { bleChar = hit; break; }
+        } catch {}
+      }
+    }
+    if (!bleChar) throw new Error("藍牙印表機未連線");
+    for (let i = 0; i < bytes.length; i += 100) {
+      const slice = bytes.slice(i, i + 100);
+      if (bleChar.properties.writeWithoutResponse) await bleChar.writeValueWithoutResponse(slice);
+      else await bleChar.writeValueWithResponse(slice);
+      await new Promise(r => setTimeout(r, 20));
+    }
+    return;
+  }
+
+  if (cfg.transport === "usb_serial") {
+    if (!usbPort || !usbPort.writable) throw new Error("尚未連接 USB 熱感印表機");
+    const writer = usbPort.writable.getWriter();
+    try {
+      for (let i = 0; i < bytes.length; i += 512) {
+        await writer.write(bytes.slice(i, i + 512));
+      }
+    } finally {
+      writer.releaseLock();
+    }
+    return;
+  }
+
+  if (cfg.transport === "wifi_bridge") {
+    let bin = "";
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+    }
+    const res = await fetch(cfg.bridgeUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ base64Data: btoa(bin) })
+    });
+    if (!res.ok) throw new Error("Wi-Fi 橋接傳送失敗");
+  }
+}
+
+async function printOrder(order) {
+  const copies = cfg.copyMode === "both" ? ["customer", "kitchen"] : [cfg.copyMode];
+  if (cfg.transport === "browser_print") {
+    const mount = document.getElementById("printMount");
+    mount.innerHTML = copies.map((c, idx) =>
+      `<div style="${idx < copies.length - 1 ? "page-break-after:always;" : ""}max-width:${Number(cfg.paperWidth) === 80 ? "76mm" : "54mm"};">${buildReceiptHtml(order, c)}</div>`
+    ).join("");
+    await new Promise(r => setTimeout(r, 120));
+    window.print();
+    return;
+  }
+
+  for (let i = 0; i < copies.length; i++) {
+    const bytes = encodeRasterEscPos(order, copies[i]);
+    await sendBytes(bytes);
+    if (i < copies.length - 1) await new Promise(r => setTimeout(r, 350));
+  }
+}
+
+/* ===== GAS Sync & Polling ===== */
+async function markOrderPrintedOnGas(orderId) {
+  try {
+    await fetch(cfg.gasUrl, {
+      method: "POST",
+      body: JSON.stringify({ action: "markPrinted", orderId })
+    });
+  } catch (e) {
+    console.warn("標記已出單失敗:", e);
+  }
+}
+
+async function syncOrdersFromGas(autoPrintNew = false) {
+  if (isPolling || !cfg.gasUrl) return;
+  isPolling = true;
+  try {
+    const res = await fetch(`${cfg.gasUrl}?action=recentOrders&_t=${Date.now()}`);
+    const data = await res.json();
+    const list = Array.isArray(data.orders) ? data.orders : [];
+    orders = list;
+    if (!selectedOrderId && orders.length > 0) selectedOrderId = orders[0].orderId;
+
+    document.getElementById("lastSyncText").textContent =
+      "最後同步 " + new Date().toLocaleTimeString("zh-TW", { hour12: false });
+    renderOrders();
+    renderPreview();
+
+    if (autoPrintNew) {
+      const pending = orders.filter(o => o.printStatus === "未出單").reverse();
+      if (pending.length > 0) {
+        playChime();
+        for (const ord of pending) {
+          try {
+            await printOrder(ord);
+            ord.printStatus = "已出單";
+            await markOrderPrintedOnGas(ord.orderId);
+            showToast(`已自動出單 #${ord.ticketNumber || ord.orderId}`);
+          } catch (err) {
+            ord.printError = err.message;
+            showToast(`出單失敗：${err.message}`);
+          }
+          renderOrders();
+        }
+      }
+    }
+  } catch (err) {
+    document.getElementById("lastSyncText").textContent = "同步連線失敗";
+  } finally {
+    isPolling = false;
+  }
+}
+
+/* ===== Render UI ===== */
+function renderHeaderStatus() {
+  const el = document.getElementById("headerPrinterStatus");
+  if (cfg.transport === "bluetooth") {
+    el.textContent = bleChar ? `藍牙：${bleDevice?.name || "已連線"}` : "藍牙：未配對";
+  } else if (cfg.transport === "usb_serial") {
+    el.textContent = usbPort ? "USB：已連線" : "USB：未連接";
+  } else if (cfg.transport === "wifi_bridge") {
+    el.textContent = "Wi-Fi 橋接";
+  } else {
+    el.textContent = "系統驅動列印";
+  }
+}
+
+function renderOrders() {
+  const container = document.getElementById("ordersContainer");
+  if (orders.length === 0) {
+    container.innerHTML = `<div style="padding:40px;text-align:center;color:var(--muted);">試算表目前尚無新訂單</div>`;
+    return;
+  }
+  container.innerHTML = orders.map(o => {
+    const sel = o.orderId === selectedOrderId ? "selected" : "";
+    const statusHtml = o.printError
+      ? `<span class="state-err">失敗：${escapeHtml(o.printError)}</span>`
+      : o.printStatus === "已出單"
+      ? `<span class="state-ok">✓ 已出單</span>`
+      : `<span class="state-wait">待出單</span>`;
+    return `
+      <div class="order-item ${sel}" data-oid="${escapeHtml(o.orderId)}">
+        <div style="min-width:0;">
+          <div>
+            <span class="ticket-num mono">#${escapeHtml(o.ticketNumber || String(o.orderId || "").slice(-3))}</span>
+            <span class="mono" style="font-size:12px;color:var(--muted);margin-left:6px;">${escapeHtml(o.orderId)}</span>
+            <span style="margin-left:8px;">${statusHtml}</span>
+          </div>
+          <div class="order-meta">
+            ${escapeHtml(o.dateTime || "")} · ${escapeHtml(o.deliveryMethod || "")} ${escapeHtml(o.pickupStore || o.receiverName || o.userName || "")} · ${escapeHtml(o.paymentMethod || "")}
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div class="amt mono">$${Number(o.totalAmount || 0).toLocaleString()}</div>
+          <button type="button" class="btn" style="height:30px;padding:0 10px;font-size:12px;margin-top:4px;" data-reprint="${escapeHtml(o.orderId)}">補印</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderPreview() {
+  const mount = document.getElementById("previewMount");
+  mount.className = "receipt-wrap" + (Number(cfg.paperWidth) === 80 ? " w80" : "");
+  const ord = orders.find(o => o.orderId === selectedOrderId) || createSampleOrder();
+  mount.innerHTML = buildReceiptHtml(ord, previewCopy);
+}
+
+function createSampleOrder() {
+  return {
+    orderId: "TEST-" + Date.now().toString().slice(-6),
+    ticketNumber: "T01",
+    dateTime: new Date().toLocaleString("zh-TW", { hour12: false }),
+    userName: "測試顧客",
+    deliveryMethod: "自取",
+    pickupStore: "總店門市",
+    paymentMethod: "Line Pay",
+    totalAmount: 540,
+    items: [
+      { name: "履歷翠玉高麗菜", quantity: 2, price: 90 },
+      { name: "急凍挪威鮭魚菲力", quantity: 1, price: 360 }
+    ]
+  };
+}
+
+function renderSetupUI() {
+  document.querySelectorAll("#transportGrid .t-card").forEach(el => {
+    el.classList.toggle("active", el.dataset.transport === cfg.transport);
+  });
+  document.getElementById("panelBluetooth").classList.toggle("hidden", cfg.transport !== "bluetooth");
+  document.getElementById("panelUsbSerial").classList.toggle("hidden", cfg.transport !== "usb_serial");
+  document.getElementById("panelBrowserPrint").classList.toggle("hidden", cfg.transport !== "browser_print");
+  document.getElementById("panelWifiBridge").classList.toggle("hidden", cfg.transport !== "wifi_bridge");
+
+  const bleBox = document.getElementById("bleInfoBox");
+  bleBox.className = "notice " + (bleChar ? "notice-ok" : "notice-warn");
+  bleBox.textContent = bleChar ? `已連線藍牙印表機：${bleDevice?.name || "BLE 印表機"}` : "尚未配對藍牙裝置（請使用 Chrome 開啟）";
+
+  const usbBox = document.getElementById("usbInfoBox");
+  usbBox.className = "notice " + (usbPort ? "notice-ok" : "notice-warn");
+  usbBox.textContent = usbPort ? "已連接 USB 序列埠熱感印表機" : "尚未連接 USB 序列埠";
+
+  document.querySelectorAll("[data-width]").forEach(b => {
+    b.classList.toggle("active", Number(b.dataset.width) === Number(cfg.paperWidth));
+  });
+  document.getElementById("copyModeInput").value = cfg.copyMode;
+  document.getElementById("storeNameInput").value = cfg.storeName;
+  document.getElementById("footerNoteInput").value = cfg.footerNote;
+  document.getElementById("autoCutInput").checked = cfg.autoCut;
+  document.getElementById("buzzerInput").checked = cfg.buzzerBeep;
+  document.getElementById("bridgeUrlInput").value = cfg.bridgeUrl;
+  document.getElementById("usbBaudInput").value = String(cfg.usbBaud);
+  document.getElementById("gasUrlInput").value = cfg.gasUrl;
+  document.getElementById("pollSecInput").value = String(cfg.pollSec);
+
+  const listenBtn = document.getElementById("toggleListenBtn");
+  listenBtn.textContent = cfg.listening ? "自動接單監聽：開啟中" : "自動接單監聽：已暫停";
+  listenBtn.className = "btn " + (cfg.listening ? "btn-listen-on" : "");
+}
+
+/* ===== Event Listeners ===== */
+document.querySelectorAll(".nav-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".nav-btn").forEach(b => b.classList.toggle("active", b === btn));
+    document.getElementById("tabStation").classList.toggle("hidden", btn.dataset.tab !== "station");
+    document.getElementById("tabSetup").classList.toggle("hidden", btn.dataset.tab !== "setup");
+  });
+});
+
+document.getElementById("toggleListenBtn").addEventListener("click", () => {
+  cfg.listening = !cfg.listening;
+  saveCfg();
+});
+
+document.getElementById("unlockAudioBtn").addEventListener("click", () => {
+  playChime();
+  showToast("已播放接單提示音");
+});
+
+document.getElementById("pollNowBtn").addEventListener("click", () => {
+  syncOrdersFromGas(cfg.listening);
+});
+
+const runTestPrint = async () => {
+  try {
+    await printOrder(createSampleOrder());
+    showToast("測試單據列印完成");
+  } catch (err) {
+    showToast("列印失敗：" + err.message);
+  }
+};
+document.getElementById("testPrintBtn").addEventListener("click", runTestPrint);
+document.getElementById("setupTestPrintBtn").addEventListener("click", runTestPrint);
+
+document.getElementById("ordersContainer").addEventListener("click", async e => {
+  const reprintBtn = e.target.closest("[data-reprint]");
+  if (reprintBtn) {
+    e.stopPropagation();
+    const ord = orders.find(o => o.orderId === reprintBtn.dataset.reprint);
+    if (!ord) return;
+    try {
+      await printOrder(ord);
+      ord.printStatus = "已出單";
+      ord.printError = "";
+      await markOrderPrintedOnGas(ord.orderId);
+      renderOrders();
+      showToast(`已補印 #${ord.ticketNumber || ord.orderId}`);
+    } catch (err) {
+      showToast("補印失敗：" + err.message);
+    }
+    return;
+  }
+  const item = e.target.closest("[data-oid]");
+  if (item) {
+    selectedOrderId = item.dataset.oid;
+    renderOrders();
+    renderPreview();
+  }
+});
+
+document.querySelectorAll("[data-copy]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    previewCopy = btn.dataset.copy;
+    document.querySelectorAll("[data-copy]").forEach(b => b.classList.toggle("active", b === btn));
+    renderPreview();
+  });
+});
+
+document.getElementById("reprintSelectedBtn").addEventListener("click", async () => {
+  const ord = orders.find(o => o.orderId === selectedOrderId) || createSampleOrder();
+  try {
+    await printOrder(ord);
+    if (orders.find(o => o.orderId === ord.orderId)) {
+      ord.printStatus = "已出單";
+      await markOrderPrintedOnGas(ord.orderId);
+      renderOrders();
+    }
+    showToast("列印完成");
+  } catch (err) {
+    showToast("列印失敗：" + err.message);
+  }
+});
+
+document.getElementById("transportGrid").addEventListener("click", e => {
+  const card = e.target.closest("[data-transport]");
+  if (!card) return;
+  cfg.transport = card.dataset.transport;
+  saveCfg();
+});
+
+document.getElementById("pairBleBtn").addEventListener("click", async () => {
+  try { await pairBluetooth(); } catch (err) { showToast(err.message); }
+});
+document.getElementById("pairUsbBtn").addEventListener("click", async () => {
+  try { await pairUsbSerial(); } catch (err) { showToast(err.message); }
+});
+
+document.querySelectorAll("[data-width]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    cfg.paperWidth = Number(btn.dataset.width);
+    saveCfg();
+    renderPreview();
+  });
+});
+
+document.getElementById("saveConfigBtn").addEventListener("click", () => {
+  cfg.copyMode = document.getElementById("copyModeInput").value;
+  cfg.storeName = document.getElementById("storeNameInput").value.trim() || "鮮選團購";
+  cfg.footerNote = document.getElementById("footerNoteInput").value.trim();
+  cfg.autoCut = document.getElementById("autoCutInput").checked;
+  cfg.buzzerBeep = document.getElementById("buzzerInput").checked;
+  cfg.bridgeUrl = document.getElementById("bridgeUrlInput").value.trim();
+  cfg.usbBaud = Number(document.getElementById("usbBaudInput").value) || 115200;
+  cfg.gasUrl = document.getElementById("gasUrlInput").value.trim() || DEFAULT_GAS_URL;
+  cfg.pollSec = Math.max(3, Math.min(60, Number(document.getElementById("pollSecInput").value) || 4));
+  saveCfg();
+  renderPreview();
+  syncOrdersFromGas(false);
+  showToast("設定已儲存");
+});
+
+/* ===== Init ===== */
+renderSetupUI();
+renderHeaderStatus();
+renderPreview();
+syncOrdersFromGas(false);
+
+setInterval(() => {
+  if (cfg.listening) syncOrdersFromGas(true);
+}, Math.max(3, cfg.pollSec) * 1000);
+</script>
+</body>
+</html>
